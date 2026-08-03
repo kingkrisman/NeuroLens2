@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NeuroLens</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main>
+      <div class="eyebrow">NEUROLENS</div>
+      <h1>Read with clarity.</h1>
+      <p class="intro">Transform the article on your current tab into a calmer reading experience.</p>
+
+      <label class="field">
+        <span>Reading mode</span>
+        <select id="mode">
+          <option value="default">Standard</option>
+          <option value="adhd">ADHD</option>
+          <option value="dyslexia">Dyslexia</option>
+          <option value="focus">Focus</option>
+        </select>
+      </label>
+
+      <label class="field">
+        <span><span>Fixation</span><output id="fixationValue">50%</output></span>
+        <input id="fixation" type="range" min="0" max="0.8" step="0.05" value="0.5" />
+      </label>
+
+      <button id="openReader" class="primary">Transform this page</button>
+      <p id="status" class="status" role="status"></p>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>

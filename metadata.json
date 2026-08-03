@@ -1,0 +1,8 @@
+{
+  "name": "NeuroLens",
+  "description": "A personalized reading platform for ADHD, dyslexia, and cognitive accessibility.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
