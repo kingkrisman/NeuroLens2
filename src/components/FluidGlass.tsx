@@ -84,7 +84,7 @@ const ModeWrapper = memo(function ModeWrapper({
   modeProps = {},
   ...props
 }: {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   glb: string;
   geometryKey: string;
   lockToBottom?: boolean;
@@ -241,13 +241,10 @@ function NavItems({ items }: { items: NavItem[] }) {
           color="white"
           anchorX="center"
           anchorY="middle"
-          depthWrite={false}
           outlineWidth={0}
           outlineBlur="20%"
           outlineColor="#000"
           outlineOpacity={0.5}
-          depthTest={false}
-          renderOrder={10}
           onClick={(e: any) => {
             e.stopPropagation();
             handleNavigate(link);
@@ -279,10 +276,10 @@ function Images() {
 
   return (
     <group ref={group}>
-      <Image position={[-2, 0, 0]} scale={[3, height / 1.1, 1]} url="/assets/demo/cs1.webp" />
+      <Image position={[-2, 0, 0]} scale={[3, height / 1.1, 1] as any} url="/assets/demo/cs1.webp" />
       <Image position={[2, 0, 3]} scale={3} url="/assets/demo/cs2.webp" />
-      <Image position={[-2.05, -height, 6]} scale={[1, 3, 1]} url="/assets/demo/cs3.webp" />
-      <Image position={[-0.6, -height, 9]} scale={[1, 2, 1]} url="/assets/demo/cs1.webp" />
+      <Image position={[-2.05, -height, 6]} scale={[1, 3, 1] as any} url="/assets/demo/cs3.webp" />
+      <Image position={[-0.6, -height, 9]} scale={[1, 2, 1] as any} url="/assets/demo/cs1.webp" />
       <Image position={[0.75, -height, 10.5]} scale={1.5} url="/assets/demo/cs2.webp" />
     </group>
   );
