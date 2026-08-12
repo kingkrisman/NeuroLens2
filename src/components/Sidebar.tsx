@@ -56,14 +56,14 @@ export default function Sidebar({
 
       <motion.aside
         initial={false}
-        animate={{ width: isOpen ? 300 : 0 }}
+        animate={{ width: isOpen ? 'min(300px, calc(100vw - 1rem))' : 0 }}
         className={cn(
-          "bg-white border-r border-art-text/10 h-full flex flex-col overflow-visible shadow-2xl lg:shadow-none z-50 lg:z-30 transition-all duration-300",
+          "panel-surface border-r border-white/60 h-full flex flex-col overflow-visible shadow-2xl lg:shadow-none z-50 lg:z-30 transition-all duration-300",
           "fixed lg:relative inset-y-0 left-0"
         )}
       >
         <div className={cn(
-          isOpen ? "w-[min(300px,85vw)] min-w-[min(300px,85vw)] lg:w-[300px] lg:min-w-[300px]" : "w-0 min-w-0",
+          isOpen ? "w-[min(300px,calc(100vw-1rem))] min-w-[min(300px,calc(100vw-1rem))] lg:w-[300px] lg:min-w-[300px]" : "w-0 min-w-0",
           "flex flex-col h-full overflow-hidden transition-[width,min-width] duration-200"
         )}>
           <div className="p-4 sm:p-6 border-b border-white/40 flex items-center justify-between">
