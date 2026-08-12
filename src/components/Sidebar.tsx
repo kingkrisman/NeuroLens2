@@ -370,7 +370,7 @@ export default function Sidebar({
       {!isOpen && (
         <button 
           onClick={onToggle}
-          className="fixed md:absolute left-0 md:left-auto top-1/2 -translate-y-1/2 md:-right-4 w-8 h-12 fluid-glass-button rounded-r-xl flex items-center justify-center z-50 cursor-pointer"
+          className="fixed md:absolute left-0 md:left-auto top-1/2 -translate-y-1/2 md:-right-8 w-8 h-12 fluid-glass-button rounded-r-xl flex items-center justify-center z-50 cursor-pointer"
           title="Open Reading Options"
         >
           <ChevronRight size={16} className="text-zinc-600" />
