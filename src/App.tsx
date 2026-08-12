@@ -53,7 +53,7 @@ export default function App() {
   const [direction, setDirection] = useState<number>(0);
   const [isReading, setIsReading] = useState(false);
   const [mode, setMode] = useState<ReadingMode>('default');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(() => window.matchMedia('(min-width: 1024px)').matches);
   const [isAIBarOpen, setIsAIBarOpen] = useState(false);
   const [isBooting, setIsBooting] = useState(true);
   const [isAutoScrolling, setIsAutoScrolling] = useState(false);
@@ -171,7 +171,7 @@ export default function App() {
       <div className="noise" />
 
       {/* Global Header */}
-      <header className="h-14 sm:h-16 flex items-center justify-between px-2.5 sm:px-8 fluid-glass shrink-0 z-50">
+      <header className="min-h-14 sm:h-16 flex items-center justify-between gap-2 px-3 sm:px-8 panel-surface shrink-0 z-50">
         <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
           <button
             onClick={handleBack}
@@ -184,7 +184,7 @@ export default function App() {
           <span className="text-sm sm:text-lg font-bold tracking-tight text-art-text">NeuroLens</span>
         </div>
 
-        <nav className="flex items-center gap-0.5 sm:gap-1 fluid-glass-pill p-1 rounded-full text-[11px] sm:text-sm font-semibold text-art-text/60 overflow-x-auto max-w-[calc(100vw-9.5rem)] sm:max-w-none no-scrollbar shrink">
+        <nav className="flex items-center gap-0.5 sm:gap-1 panel-pill p-1 rounded-lg sm:rounded-full text-[11px] sm:text-sm font-semibold text-art-text/60 overflow-x-auto max-w-[calc(100vw-9rem)] lg:max-w-none no-scrollbar shrink">
           {[
             { id: 'manifesto', label: 'Explore' },
             { id: 'reader', label: 'Read', disabled: !text },
@@ -209,7 +209,7 @@ export default function App() {
                 {isActive && (
                   <motion.div
                     layoutId="activeTabPill"
-                    className="absolute inset-0 fluid-glass-active rounded-full"
+                    className="absolute inset-0 surface-selected rounded-full"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
@@ -223,18 +223,18 @@ export default function App() {
           <button
             onClick={() => isReading && setIsAIBarOpen(!isAIBarOpen)}
             className={cn(
-              "px-2.5 sm:px-5 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-full sm:rounded-lg transition-all shrink-0 flex items-center gap-1.5 cursor-pointer fluid-glass-refraction",
+              "px-2.5 sm:px-5 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all shrink-0 flex items-center gap-1.5 cursor-pointer surface-button",
               !isReading && "opacity-40 cursor-not-allowed",
               isAIBarOpen
-                ? "fluid-glass-active text-art-text"
-                : "fluid-glass-button text-art-text"
+                ? "surface-selected text-art-text"
+                : "surface-button text-art-text"
             )}
             disabled={!isReading}
             title={isReading ? "Toggle AI Synapse Assistant" : "Portal Active"}
           >
             <Sparkles size={14} className={cn("text-amber-500", isAIBarOpen && "text-amber-300")} />
-            <span className="hidden sm:inline">{isReading ? "AI Assistant" : "Portal"}</span>
-            <span className="sm:hidden font-bold">{isReading ? "AI" : "Portal"}</span>
+            <span className="hidden lg:inline">{isReading ? "AI Assistant" : "Portal"}</span>
+            <span className="lg:hidden font-bold">{isReading ? "AI" : "Portal"}</span>
           </button>
         </div>
       </header>
@@ -601,7 +601,7 @@ export default function App() {
         </AnimatePresence>
       </div>
 
-      <footer className="min-h-12 shrink-0 px-4 py-3 sm:px-10 flex items-center justify-center text-center text-[10px] sm:text-xs text-art-text/50 fluid-glass">
+      <footer className="min-h-12 shrink-0 px-4 py-3 sm:px-10 flex items-center justify-center text-center text-[10px] sm:text-xs text-art-text/50 panel-surface">
         NeuroLens © 2024 · Crafted for neurodivergent minds
       </footer>
     </div>
