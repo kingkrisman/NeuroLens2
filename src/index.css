@@ -159,6 +159,29 @@
   transform: translateY(0);
 }
 
+.reader-surface {
+  background: rgba(255, 255, 255, 0.34);
+  backdrop-filter: blur(20px) saturate(155%);
+  -webkit-backdrop-filter: blur(20px) saturate(155%);
+}
+
+.reader-paper {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.05),
+    inset 0 1px rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(14px) saturate(145%);
+  -webkit-backdrop-filter: blur(14px) saturate(145%);
+}
+
+@media (min-width: 640px) {
+  .reader-paper {
+    margin-block: 1rem;
+    border-radius: 1.5rem;
+  }
+}
+
 /* Custom Scrollbar & Momentum Scroll */
 .overflow-y-auto,
 .overflow-auto,

@@ -574,7 +574,7 @@ export default function App() {
               />
 
               {/* Reader View */}
-              <main className="flex-1 min-w-0 relative flex flex-col overflow-hidden bg-white">
+              <main className="flex-1 min-w-0 relative flex flex-col overflow-hidden reader-surface">
                 <div className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth smooth-scroll overscroll-contain">
                   <Reader 
                     text={text} 

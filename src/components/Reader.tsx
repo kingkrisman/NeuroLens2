@@ -406,7 +406,7 @@ export default function Reader({
     <div
       onMouseMove={(e) => rulerEnabled && setMouseY(e.clientY)}
       className={cn(
-        "max-w-4xl mx-auto px-4 sm:px-8 md:px-12 py-10 sm:py-16 md:py-20 pb-32 sm:pb-40 transition-all duration-300 min-h-full bg-white relative",
+        "max-w-4xl mx-auto px-4 sm:px-8 md:px-12 py-10 sm:py-16 md:py-20 pb-32 sm:pb-40 transition-all duration-300 min-h-full reader-paper relative",
         profile.fontFamily,
         focusGuideEnabled && activeLine !== null && "focus-highlight"
       )}
