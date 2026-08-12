@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Sparkles, X, ChevronRight, Wand2, ListChecks, HelpCircle, Brain, Download } from 'lucide-react';
+import { Sparkles, X, ChevronRight, Wand as Wand2, ListChecks, Circle as HelpCircle, Brain, Download } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { cn } from '../lib/utils';
 import { simplifyText, getReadabilityMetrics, compareReadability } from '../lib/textSimplifier';
@@ -142,13 +142,13 @@ ${Object.entries(simplifyResult.explanations)
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: "100%" }}
         transition={{ type: "spring", damping: 28, stiffness: 260 }}
-        className="fixed sm:absolute inset-y-0 right-0 w-full sm:w-[min(440px,90vw)] bg-white border-l border-art-text/10 shadow-2xl z-50 flex flex-col overflow-hidden"
+        className="fixed sm:absolute inset-y-0 right-0 w-full sm:w-[min(440px,90vw)] fluid-glass-strong z-50 flex flex-col overflow-hidden"
       >
       {/* Decorative Aura */}
       <div className="absolute -top-24 -right-24 w-64 h-64 bg-orange-500/5 blur-[100px] rounded-full pointer-events-none" />
       <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-black/5 blur-[100px] rounded-full pointer-events-none" />
 
-      <div className="p-4 sm:p-8 border-b border-art-text/10 flex items-center justify-between relative bg-white/40 backdrop-blur-md">
+      <div className="p-4 sm:p-8 flex items-center justify-between relative">
         <div className="flex flex-col">
           <span className="text-[10px] uppercase tracking-[0.4em] font-black text-art-text/30 mb-1">Intelligence</span>
           <span className="font-serif italic text-xl sm:text-2xl text-art-text">Synapse Assistant</span>
@@ -186,7 +186,7 @@ ${Object.entries(simplifyResult.explanations)
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
                     onClick={() => processAI(action.id)}
-                    className="w-full text-left p-4 sm:p-6 bg-white rounded-[24px] sm:rounded-[32px] border border-art-text/5 hover:border-orange-500/50 hover:shadow-[0_15px_40px_rgba(0,0,0,0.03)] transition-all group relative overflow-hidden"
+                    className="w-full text-left p-4 sm:p-6 fluid-glass rounded-[24px] sm:rounded-[32px] transition-all group relative overflow-hidden fluid-glass-refraction"
                   >
                     <div className="absolute inset-0 bg-orange-500/[0.02] opacity-0 group-hover:opacity-100 transition-opacity" />
                     <div className="flex items-center justify-between mb-2 relative z-10">
@@ -360,7 +360,7 @@ ${Object.entries(simplifyResult.explanations)
         </AnimatePresence>
       </div>
 
-      <div className="p-4 sm:p-10 border-t border-art-text/5 bg-art-secondary/30 relative">
+      <div className="p-4 sm:p-10 fluid-glass-pill relative">
         <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-orange-500/20 to-transparent" />
         <div className="flex items-start gap-4">
           <div className="w-8 h-8 rounded-full bg-art-text/5 flex items-center justify-center shrink-0">

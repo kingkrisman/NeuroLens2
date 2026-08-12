@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Upload, FileText, Sparkles, BookOpen, Brain, Type, Maximize2, ChevronRight, Zap, Eye, CheckCircle2 } from 'lucide-react';
+import { Upload, FileText, Sparkles, BookOpen, Brain, Type, Maximize2, ChevronRight, Zap, Eye, CircleCheck as CheckCircle2 } from 'lucide-react';
 import { cn, processBionicText } from '../lib/utils';
 import { processDocument } from '../lib/documentProcessor';
 
@@ -92,15 +92,15 @@ export default function Landing({ onStart }: LandingProps) {
         </p>
 
         {/* Live Interactive Preview Card */}
-        <div className="mt-8 p-5 sm:p-6 bg-white rounded-3xl border border-art-text/10 shadow-sm max-w-xl mx-auto text-left relative overflow-hidden group">
+        <div className="mt-8 p-5 sm:p-6 fluid-glass-strong rounded-3xl max-w-xl mx-auto text-left relative overflow-hidden group fluid-glass-refraction">
           <div className="flex items-center justify-between mb-3.5 text-xs font-semibold text-art-text/50 border-b border-art-text/5 pb-2.5">
             <span className="flex items-center gap-2"><Brain size={15} className="text-blue-600" /> Interactive Fixation Engine</span>
-            <div className="flex gap-1 bg-art-secondary p-1 rounded-full text-[11px]">
+            <div className="flex gap-1 fluid-glass-pill p-1 rounded-full text-[11px]">
               <button
                 onClick={() => setDemoBionic(true)}
                 className={cn(
                   "px-3 py-1 rounded-full font-semibold transition-all cursor-pointer",
-                  demoBionic ? "bg-blue-600 text-white shadow-xs" : "text-art-text/60 hover:text-art-text"
+                  demoBionic ? "fluid-glass-active text-blue-600 shadow-xs" : "text-art-text/60 hover:text-art-text"
                 )}
               >
                 Bionic Fixation
@@ -109,7 +109,7 @@ export default function Landing({ onStart }: LandingProps) {
                 onClick={() => setDemoBionic(false)}
                 className={cn(
                   "px-3 py-1 rounded-full font-semibold transition-all cursor-pointer",
-                  !demoBionic ? "bg-art-text text-white shadow-xs" : "text-art-text/60 hover:text-art-text"
+                  !demoBionic ? "fluid-glass-active text-art-text shadow-xs" : "text-art-text/60 hover:text-art-text"
                 )}
               >
                 Standard
@@ -133,7 +133,7 @@ export default function Landing({ onStart }: LandingProps) {
           <motion.div 
             whileHover={{ y: -2 }}
             transition={{ duration: 0.2 }}
-            className="bg-art-secondary rounded-3xl p-6 sm:p-8 flex flex-col min-h-[420px] sm:h-[520px] border border-art-text/8 shadow-sm relative overflow-hidden"
+            className="bg-art-secondary rounded-3xl p-6 sm:p-8 flex flex-col min-h-[420px] sm:h-[520px] fluid-glass relative overflow-hidden"
           >
             <div className="mb-5 sm:mb-6 flex items-center justify-between gap-3">
               <span className="text-xs font-bold uppercase tracking-wider text-art-text/50 flex items-center gap-2">
@@ -144,7 +144,7 @@ export default function Landing({ onStart }: LandingProps) {
                 <motion.div 
                   whileHover={{ scale: 1.04 }}
                   whileTap={{ scale: 0.96 }}
-                  className="flex items-center gap-2 px-3.5 sm:px-4 py-2 bg-white text-art-text rounded-xl text-xs sm:text-sm font-semibold border border-art-text/10 shadow-xs hover:border-blue-300 hover:text-blue-600 transition-all"
+                  className="flex items-center gap-2 px-3.5 sm:px-4 py-2 text-art-text rounded-xl text-xs sm:text-sm font-semibold fluid-glass-button fluid-glass-refraction"
                 >
                   <Upload size={15} />
                   {isUploading ? (
@@ -167,7 +167,7 @@ export default function Landing({ onStart }: LandingProps) {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
-                  className="mt-4 p-4 bg-blue-50/80 rounded-2xl border border-blue-200/60"
+                  className="mt-4 p-4 fluid-glass-pill rounded-2xl"
                 >
                   <div className="flex items-center gap-2 mb-1.5">
                     <FileText size={15} className="text-blue-600" />
@@ -189,7 +189,7 @@ export default function Landing({ onStart }: LandingProps) {
               whileTap={{ scale: inputText.trim() ? 0.98 : 1 }}
               onClick={() => onStart(inputText)}
               disabled={!inputText.trim()}
-              className="mt-6 sm:mt-8 w-full py-3.5 bg-art-text text-white rounded-2xl font-semibold text-sm sm:text-base hover:bg-black transition-all shadow-lg shadow-art-text/10 flex items-center justify-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+              className="mt-6 sm:mt-8 w-full py-3.5 text-white rounded-2xl font-semibold text-sm sm:text-base transition-all shadow-lg shadow-art-text/10 flex items-center justify-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer fluid-glass-refraction"
             >
               <span>Launch Reading Portal</span>
               <ChevronRight size={18} />
@@ -201,7 +201,7 @@ export default function Landing({ onStart }: LandingProps) {
 
         {/* Examples & Stats Cards */}
         <motion.div variants={itemVariants} className="flex flex-col gap-6">
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-art-text/8 shadow-sm">
+          <div className="fluid-glass rounded-3xl p-6 sm:p-8">
             <h3 className="text-xs font-bold text-art-text/50 mb-5 uppercase tracking-wider flex items-center gap-2">
               <BookOpen size={15} /> Curated Sample Texts
             </h3>
@@ -211,7 +211,7 @@ export default function Landing({ onStart }: LandingProps) {
                   key={i}
                   whileHover={{ x: 4, backgroundColor: 'rgba(245, 245, 247, 0.8)' }}
                   onClick={() => setInputText(ex.text)}
-                  className="w-full text-left p-4 rounded-2xl transition-all border border-transparent hover:border-art-text/10 cursor-pointer block"
+                  className="w-full text-left p-4 rounded-2xl transition-all fluid-glass-button fluid-glass-refraction cursor-pointer block"
                 >
                   <div className="font-semibold text-art-text text-sm sm:text-base mb-1 flex items-center justify-between">
                     <span>{ex.title}</span>
@@ -231,7 +231,7 @@ export default function Landing({ onStart }: LandingProps) {
               <motion.div 
                 key={i} 
                 whileHover={{ y: -2 }}
-                className="bg-white rounded-3xl p-5 sm:p-6 border border-art-text/8 shadow-sm text-center flex flex-col justify-between"
+                className="fluid-glass rounded-3xl p-5 sm:p-6 text-center flex flex-col justify-between"
               >
                 <div className={cn("text-3xl sm:text-4xl font-bold tracking-tight mb-1", item.color)}>{item.stat}</div>
                 <div>

@@ -171,7 +171,7 @@ export default function App() {
       <div className="noise" />
 
       {/* Global Header */}
-      <header className="h-14 sm:h-16 border-b border-art-text/5 flex items-center justify-between px-2.5 sm:px-8 bg-white/80 backdrop-blur-md shrink-0 z-50">
+      <header className="h-14 sm:h-16 flex items-center justify-between px-2.5 sm:px-8 fluid-glass shrink-0 z-50">
         <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
           <button
             onClick={handleBack}
@@ -184,7 +184,7 @@ export default function App() {
           <span className="text-sm sm:text-lg font-bold tracking-tight text-art-text">NeuroLens</span>
         </div>
 
-        <nav className="flex items-center gap-0.5 sm:gap-1 bg-art-secondary/80 p-1 rounded-full border border-art-text/5 text-[11px] sm:text-sm font-semibold text-art-text/60 overflow-x-auto max-w-[calc(100vw-9.5rem)] sm:max-w-none no-scrollbar shrink">
+        <nav className="flex items-center gap-0.5 sm:gap-1 fluid-glass-pill p-1 rounded-full text-[11px] sm:text-sm font-semibold text-art-text/60 overflow-x-auto max-w-[calc(100vw-9.5rem)] sm:max-w-none no-scrollbar shrink">
           {[
             { id: 'manifesto', label: 'Explore' },
             { id: 'reader', label: 'Read', disabled: !text },
@@ -209,7 +209,7 @@ export default function App() {
                 {isActive && (
                   <motion.div
                     layoutId="activeTabPill"
-                    className="absolute inset-0 bg-white rounded-full shadow-xs border border-art-text/10"
+                    className="absolute inset-0 fluid-glass-active rounded-full"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
@@ -223,11 +223,11 @@ export default function App() {
           <button
             onClick={() => isReading && setIsAIBarOpen(!isAIBarOpen)}
             className={cn(
-              "px-2.5 sm:px-5 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-full sm:rounded-lg transition-all shrink-0 flex items-center gap-1.5 cursor-pointer",
+              "px-2.5 sm:px-5 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-full sm:rounded-lg transition-all shrink-0 flex items-center gap-1.5 cursor-pointer fluid-glass-refraction",
               !isReading && "opacity-40 cursor-not-allowed",
               isAIBarOpen
-                ? "bg-art-text text-white shadow-sm"
-                : "bg-art-secondary text-art-text hover:bg-art-text/10"
+                ? "fluid-glass-active text-art-text"
+                : "fluid-glass-button text-art-text"
             )}
             disabled={!isReading}
             title={isReading ? "Toggle AI Synapse Assistant" : "Portal Active"}
@@ -601,7 +601,7 @@ export default function App() {
         </AnimatePresence>
       </div>
 
-      <footer className="min-h-12 shrink-0 border-t border-art-text/5 bg-white px-4 py-3 sm:px-10 flex items-center justify-center text-center text-[10px] sm:text-xs text-art-text/50">
+      <footer className="min-h-12 shrink-0 px-4 py-3 sm:px-10 flex items-center justify-center text-center text-[10px] sm:text-xs text-art-text/50 fluid-glass">
         NeuroLens © 2024 · Crafted for neurodivergent minds
       </footer>
     </div>
