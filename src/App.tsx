@@ -22,8 +22,9 @@ import Reader from './components/Reader';
 import Landing from './components/Landing';
 import Sidebar from './components/Sidebar';
 import AIAssistant from './components/AIAssistant';
+import FluidGlass from './components/FluidGlass';
 
-const TAB_ORDER = ['manifesto', 'reader', 'library', 'insights', 'settings'] as const;
+const TAB_ORDER = ['manifesto', 'reader', 'library', 'insights', 'visual', 'settings'] as const;
 type TabType = typeof TAB_ORDER[number];
 
 const slideVariants = {
@@ -189,6 +190,7 @@ export default function App() {
             { id: 'reader', label: 'Read', disabled: !text },
             { id: 'library', label: 'Library' },
             { id: 'insights', label: 'Insights' },
+            { id: 'visual', label: 'Visual' },
             { id: 'settings', label: 'Settings' },
           ].map((tab) => {
             const isActive = (tab.id === 'reader' && isReading) || (currentTab === tab.id && !isReading);
@@ -479,6 +481,30 @@ export default function App() {
                     </div>
                   </div>
                 )}
+              </div>
+            </motion.div>
+          ) : activeTabKey === 'visual' ? (
+            <motion.div
+              key="visual"
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={slideTransition}
+              className="absolute inset-0 w-full h-full flex flex-col overflow-hidden"
+            >
+              <div className="flex-1 relative min-h-0">
+                <FluidGlass
+                  mode="lens"
+                  lensProps={{
+                    scale: 0.25,
+                    ior: 1.15,
+                    thickness: 5,
+                    chromaticAberration: 0.1,
+                    anisotropy: 0.01,
+                  }}
+                />
               </div>
             </motion.div>
           ) : activeTabKey === 'settings' ? (
