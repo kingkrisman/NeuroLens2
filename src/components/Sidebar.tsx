@@ -58,15 +58,25 @@ export default function Sidebar({
         initial={false}
         animate={{ width: isOpen ? 'min(300px, calc(100vw - 1rem))' : 0 }}
         className={cn(
-          "panel-surface border-r border-white/60 h-full flex flex-col overflow-visible shadow-2xl lg:shadow-none z-50 lg:z-30 transition-all duration-300",
+          "liquid-glass-sidebar h-full flex flex-col overflow-visible shadow-2xl lg:shadow-none z-50 lg:z-30 transition-all duration-300",
           "fixed lg:relative inset-y-0 left-0"
         )}
       >
         <div className={cn(
           isOpen ? "w-[min(300px,calc(100vw-1rem))] min-w-[min(300px,calc(100vw-1rem))] lg:w-[300px] lg:min-w-[300px]" : "w-0 min-w-0",
-          "flex flex-col h-full overflow-hidden transition-[width,min-width] duration-200"
+          "sidebar-glass-shell relative isolate flex flex-col h-full overflow-hidden transition-[width,min-width] duration-200"
         )}>
-          <div className="p-4 sm:p-6 border-b border-white/40 flex items-center justify-between">
+          <svg className="sidebar-glass-definitions" aria-hidden="true" focusable="false">
+            <filter id="sidebar-glass-filter" x="0" y="0" width="100%" height="100%" filterUnits="objectBoundingBox">
+              <feTurbulence type="fractalNoise" baseFrequency="0.003 0.007" numOctaves="1" seed="31" result="sidebarTurbulence" />
+              <feDisplacementMap in="SourceGraphic" in2="sidebarTurbulence" scale="70" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+          </svg>
+          <div className="liquid-glass--bend sidebar-glass-bend" aria-hidden="true" />
+          <div className="liquid-glass--face sidebar-glass-face" aria-hidden="true" />
+          <div className="liquid-glass--edge sidebar-glass-edge" aria-hidden="true" />
+          <div className="sidebar-glass-content">
+          <div className="p-4 sm:p-6 flex items-center justify-between">
             <span className="font-semibold text-art-text">Reading Options</span>
             <button 
               onClick={onToggle} 
@@ -343,7 +353,7 @@ export default function Sidebar({
                     btn.classList.remove("bg-green-600");
                   }, 2000);
                 }}
-                className="w-full py-4 bg-art-text text-white text-[10px] uppercase font-bold tracking-[0.4em] rounded-2xl transition-all shadow-xl shadow-art-text/10 hover:bg-blue-600"
+                className="sidebar-vault-button w-full py-4 bg-art-text text-white text-[10px] uppercase font-bold tracking-[0.4em] rounded-2xl transition-all shadow-xl shadow-art-text/10 hover:bg-blue-600"
               >
                 Vault Settings
               </button>
@@ -364,6 +374,7 @@ export default function Sidebar({
               </div>
             </div>
           </section>
+        </div>
         </div>
       </div>
 

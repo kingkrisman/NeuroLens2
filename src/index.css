@@ -91,6 +91,125 @@
   transition: box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
+.liquid-glass-sidebar {
+  position: relative;
+  isolation: isolate;
+  background: transparent;
+  border: none;
+}
+
+.sidebar-glass-shell {
+  --sidebar-radius: 0 1.75rem 1.75rem 0;
+  border-radius: var(--sidebar-radius);
+  background: transparent;
+}
+
+.sidebar-glass-definitions {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.liquid-glass--bend,
+.liquid-glass--face,
+.liquid-glass--edge {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--sidebar-radius);
+  pointer-events: none;
+}
+
+.sidebar-glass-bend {
+  z-index: 0;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  filter: url("#sidebar-glass-filter");
+  isolation: isolate;
+}
+
+.sidebar-glass-face {
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 4px 4px rgba(0, 0, 0, 0.15),
+    0 0 12px rgba(0, 0, 0, 0.08);
+}
+
+.sidebar-glass-edge {
+  z-index: 2;
+  box-shadow:
+    inset 3px 3px 3px rgba(255, 255, 255, 0.45),
+    inset -3px -3px 3px rgba(255, 255, 255, 0.45);
+}
+
+.sidebar-glass-content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+}
+
+.sidebar-glass-content .surface-button,
+.sidebar-glass-content .surface-selected,
+.sidebar-glass-content .panel-surface {
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  backdrop-filter: blur(12px) saturate(145%);
+  -webkit-backdrop-filter: blur(12px) saturate(145%);
+  box-shadow:
+    inset 1px 1px 1px rgba(255, 255, 255, 0.45),
+    inset -1px -1px 1px rgba(255, 255, 255, 0.2),
+    0 4px 14px rgba(15, 23, 42, 0.06);
+}
+
+.sidebar-glass-content .surface-button {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.sidebar-glass-content .surface-selected {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.68), rgba(191, 219, 254, 0.44));
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.sidebar-glass-content .surface-button:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.42), rgba(219, 234, 254, 0.3));
+  border-color: rgba(255, 255, 255, 0.68);
+}
+
+.sidebar-glass-content .panel-surface {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.sidebar-glass-content input[type='range'] {
+  background: rgba(29, 29, 29, 0.16);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12), inset 0 1px rgba(255, 255, 255, 0.42);
+}
+
+.sidebar-vault-button {
+  background: linear-gradient(135deg, #1d1d1d, #2563eb) !important;
+  box-shadow:
+    inset 1px 1px 1px rgba(255, 255, 255, 0.3),
+    inset -1px -1px 2px rgba(0, 0, 0, 0.24),
+    0 10px 24px rgba(37, 99, 235, 0.2) !important;
+}
+
+@supports not ((backdrop-filter: blur(3px)) and (filter: url("#sidebar-glass-filter"))) {
+  .sidebar-glass-bend {
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    filter: none;
+  }
+
+  .sidebar-glass-face {
+    background: rgba(255, 255, 255, 0.3);
+  }
+}
+
 .panel-pill {
   box-shadow:
     0 4px 16px rgba(0, 0, 0, 0.05),
