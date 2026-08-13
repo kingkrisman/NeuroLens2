@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { createPortal } from 'react-dom';
 import { Volume2, Copy, Check, ChevronRight, Download, Eye, Share2, Zap, Play, Pause, RotateCcw, X, Sliders, MoveVertical, ChevronsDown, Minus, Plus, SlidersHorizontal, StickyNote, Trash2, Save, FileText } from 'lucide-react';
 import { cn, processBionicText } from '../lib/utils';
 import { ReadingProfile } from '../types';
@@ -751,8 +752,10 @@ export default function Reader({
         )}
       </AnimatePresence>
 
-      {/* Floating Action Dock (Down Tab) */}
-      <div ref={dockConstraintsRef} className="fixed inset-0 pointer-events-none" aria-hidden="true" />
+      {createPortal(
+        <>
+          {/* Floating Action Dock (Down Tab) */}
+          <div ref={dockConstraintsRef} className="fixed inset-0 pointer-events-none" aria-hidden="true" />
       <div className="fixed bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 z-[100] max-w-[calc(100vw-1rem)] w-auto">
         {/* Auto-Scroll Speed Popover / Drawer */}
         <AnimatePresence>
@@ -1105,6 +1108,9 @@ export default function Reader({
           </button>
         </motion.div>
       </div>
+        </>,
+        document.body
+      )}
 
     </div>
   );
