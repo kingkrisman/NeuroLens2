@@ -962,14 +962,14 @@ export default function Reader({
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ type: "spring", stiffness: 350, damping: 28 }}
-          className="bg-slate-900 text-slate-100 p-1.5 sm:p-2 rounded-full border border-slate-700/80 shadow-2xl flex items-center justify-center gap-1 sm:gap-2 max-w-full overflow-x-auto"
+          className="reader-control-dock text-slate-100 p-1.5 sm:p-2 rounded-full flex items-center justify-center gap-1 sm:gap-2 max-w-full overflow-x-auto"
         >
           {/* Auto-Scroll Button */}
-          <div className="flex items-center bg-slate-800/80 rounded-full p-0.5 border border-slate-700/60 shrink-0">
+          <div className="reader-control-group flex items-center rounded-full p-0.5 shrink-0">
             <button
               onClick={() => setIsAutoScrolling(!isAutoScrolling)}
               className={cn(
-                "px-2.5 sm:px-3 py-1.5 rounded-full font-semibold text-xs flex items-center gap-1.5 transition-all cursor-pointer",
+                "reader-control-button px-2.5 sm:px-3 py-1.5 rounded-full font-semibold text-xs flex items-center gap-1.5 transition-all cursor-pointer",
                 isAutoScrolling
                   ? "bg-emerald-500 text-slate-950 font-bold shadow-xs"
                   : "text-slate-200 hover:text-white hover:bg-slate-700/70"
@@ -985,7 +985,7 @@ export default function Reader({
                 setShowMoreTools(false);
               }}
               className={cn(
-                "px-2 py-1.5 rounded-full text-[11px] font-mono font-semibold transition-all cursor-pointer flex items-center gap-1",
+                "reader-control-button px-2 py-1.5 rounded-full text-[11px] font-mono font-semibold transition-all cursor-pointer flex items-center gap-1",
                 showAutoScrollSettings ? "text-emerald-400 bg-slate-700" : "text-slate-300 hover:text-white"
               )}
               title="Adjust Auto-Scroll WPM"
@@ -999,7 +999,7 @@ export default function Reader({
           <button
             onClick={toggleSpeech}
             className={cn(
-              "px-2.5 sm:px-3 py-1.5 rounded-full font-semibold text-xs flex items-center gap-1.5 transition-all cursor-pointer shrink-0",
+              "reader-control-button px-2.5 sm:px-3 py-1.5 rounded-full font-semibold text-xs flex items-center gap-1.5 transition-all cursor-pointer shrink-0",
               isSpeaking
                 ? "bg-amber-400 text-slate-950 font-bold animate-pulse"
                 : "text-slate-200 hover:text-white hover:bg-slate-800/80"
@@ -1018,7 +1018,7 @@ export default function Reader({
               setShowMoreTools(false);
             }}
             className={cn(
-              "px-2.5 sm:px-3 py-1.5 rounded-full font-semibold text-xs flex items-center gap-1.5 transition-all cursor-pointer shrink-0 relative",
+              "reader-control-button px-2.5 sm:px-3 py-1.5 rounded-full font-semibold text-xs flex items-center gap-1.5 transition-all cursor-pointer shrink-0 relative",
               isQuickNoteOpen
                 ? "bg-amber-400 text-slate-950 font-bold"
                 : quickNoteText.trim()
@@ -1042,14 +1042,14 @@ export default function Reader({
               setShowAutoScrollSettings(false);
               setShowMoreTools(false);
             }}
-            className="px-2.5 sm:px-3 py-1.5 rounded-full font-semibold text-xs flex items-center gap-1.5 bg-blue-600 text-white hover:bg-blue-500 transition-all cursor-pointer shadow-xs shrink-0"
+            className="reader-control-button px-2.5 sm:px-3 py-1.5 rounded-full font-semibold text-xs flex items-center gap-1.5 bg-blue-600 text-white hover:bg-blue-500 transition-all cursor-pointer shadow-xs shrink-0"
             title="Speed Reader (RSVP)"
           >
             <Zap size={15} />
             <span className="hidden lg:inline">Speed</span>
           </button>
 
-          <div className="w-[1px] h-3.5 bg-slate-700/80 mx-0.5 shrink-0 hidden sm:block" />
+          <div className="reader-control-divider w-[1px] h-3.5 mx-0.5 shrink-0 hidden sm:block" />
 
           {/* Desktop/Tablet Direct Utilities */}
           <div className="hidden lg:flex items-center gap-0.5 shrink-0">
