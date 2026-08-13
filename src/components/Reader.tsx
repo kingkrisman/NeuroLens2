@@ -418,9 +418,10 @@ export default function Reader({
       }}
     >
       <svg className="reader-glass-definitions" aria-hidden="true" focusable="false">
-        <filter id="reader-liquid-distortion" x="-15%" y="-15%" width="130%" height="130%" colorInterpolationFilters="sRGB">
+        <filter id="glass-filter-_r_b_" x="0%" y="0%" width="100%" height="100%" colorInterpolationFilters="sRGB">
           <feTurbulence type="fractalNoise" baseFrequency="0.012 0.018" numOctaves="2" seed="24" result="surfaceNoise" />
-          <feDisplacementMap in="SourceGraphic" in2="surfaceNoise" scale="12" xChannelSelector="R" yChannelSelector="G" />
+          <feDisplacementMap in="SourceGraphic" in2="surfaceNoise" scale="12" xChannelSelector="R" yChannelSelector="G" result="distortedSurface" />
+          <feGaussianBlur in="distortedSurface" stdDeviation="0.35" />
         </filter>
       </svg>
 

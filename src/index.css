@@ -160,14 +160,18 @@
   isolation: isolate;
   overflow: hidden;
   contain: paint;
-  background: rgba(15, 23, 42, 0.7);
+  width: min(100%, 34rem);
+  background: hsl(0 0% 0% / 0.1);
   border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow:
     0 12px 32px rgba(2, 6, 23, 0.3),
-    inset 1px 1px 0 rgba(255, 255, 255, 0.2),
-    inset 0 0 8px rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(20px) saturate(155%);
-  -webkit-backdrop-filter: blur(20px) saturate(155%);
+    inset 0 0 2px 1px rgba(255, 255, 255, 0.35),
+    inset 0 0 10px 4px rgba(255, 255, 255, 0.15),
+    inset 0 4px 16px rgba(17, 17, 26, 0.05),
+    inset 0 8px 24px rgba(17, 17, 26, 0.05),
+    inset 0 6px 56px rgba(17, 17, 26, 0.05);
+  backdrop-filter: url("#glass-filter-_r_b_") saturate(1.2);
+  -webkit-backdrop-filter: url("#glass-filter-_r_b_") saturate(1.2);
 }
 
 .reader-control-dock > * {
@@ -186,7 +190,7 @@
 .reader-control-glass-layer {
   z-index: 0 !important;
   background: rgba(255, 255, 255, 0.08);
-  filter: url("#reader-liquid-distortion");
+  filter: url("#glass-filter-_r_b_");
 }
 
 .reader-control-glass-highlight {
@@ -196,7 +200,7 @@
   box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.2), inset 0 -1px rgba(0, 0, 0, 0.18);
 }
 
-@supports not ((backdrop-filter: blur(1px)) and (filter: url("#reader-liquid-distortion"))) {
+@supports not ((backdrop-filter: url("#glass-filter-_r_b_")) and (filter: url("#glass-filter-_r_b_"))) {
   .reader-control-glass-layer {
     filter: none;
   }
