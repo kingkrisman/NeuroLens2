@@ -174,19 +174,55 @@ export default function App() {
             <feTurbulence
               type="fractalNoise"
               baseFrequency="0.012 0.018"
-              numOctaves="2"
+              numOctaves="3"
               seed="18"
-              result="surfaceNoise"
+              result="distortionMap"
             />
             <feDisplacementMap
               in="SourceGraphic"
-              in2="surfaceNoise"
-              scale="10"
+              in2="distortionMap"
+              scale="-14"
               xChannelSelector="R"
               yChannelSelector="G"
-              result="distortedSurface"
+              result="dispRed"
             />
-            <feGaussianBlur in="distortedSurface" stdDeviation="0.35" />
+            <feColorMatrix
+              in="dispRed"
+              type="matrix"
+              values="1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"
+              result="redChannel"
+            />
+            <feDisplacementMap
+              in="SourceGraphic"
+              in2="distortionMap"
+              scale="-18"
+              xChannelSelector="R"
+              yChannelSelector="G"
+              result="dispGreen"
+            />
+            <feColorMatrix
+              in="dispGreen"
+              type="matrix"
+              values="0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0"
+              result="greenChannel"
+            />
+            <feDisplacementMap
+              in="SourceGraphic"
+              in2="distortionMap"
+              scale="-22"
+              xChannelSelector="R"
+              yChannelSelector="G"
+              result="dispBlue"
+            />
+            <feColorMatrix
+              in="dispBlue"
+              type="matrix"
+              values="0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0"
+              result="blueChannel"
+            />
+            <feBlend in="redChannel" in2="greenChannel" mode="screen" result="redGreen" />
+            <feBlend in="redGreen" in2="blueChannel" mode="screen" result="refractedSurface" />
+            <feGaussianBlur in="refractedSurface" stdDeviation="0.35" />
           </filter>
           <filter id="header-nav-distortion" primitiveUnits="objectBoundingBox">
             <feGaussianBlur in="SourceGraphic" stdDeviation="0.04" result="blurredNav" />
