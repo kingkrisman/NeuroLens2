@@ -139,6 +139,38 @@
     inset 0 8px 24px rgba(17, 17, 26, 0.05),
     inset 0 6px 56px rgba(17, 17, 26, 0.05),
     0 6px 16px rgba(0, 0, 0, 0.08);
+  transition: background-color 240ms ease, box-shadow 240ms ease, border-color 240ms ease;
+}
+
+.liquidglass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.28), transparent 42%),
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14) 48%, transparent 72%);
+  transform: translateY(-8px) scaleY(0.85);
+  transition: opacity 240ms ease, transform 320ms ease;
+  z-index: -1;
+}
+
+.liquidglass.is-scrolled {
+  background: hsl(0 0% 0% / 0.14);
+  border-bottom-color: rgba(255, 255, 255, 0.46);
+  -webkit-backdrop-filter: var(--header-filter-id) blur(2px) saturate(1.45) contrast(1.08);
+  backdrop-filter: var(--header-filter-id) blur(2px) saturate(1.45) contrast(1.08);
+  box-shadow:
+    inset 0 0 2px 1px rgba(255, 255, 255, 0.46),
+    inset 0 0 14px 5px rgba(255, 255, 255, 0.2),
+    inset 0 -10px 24px rgba(14, 20, 34, 0.12),
+    0 8px 22px rgba(0, 0, 0, 0.16);
+}
+
+.liquidglass.is-scrolled::after {
+  opacity: 1;
+  transform: translateY(0) scaleY(1);
 }
 
 .app-header {
@@ -274,8 +306,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reader-control-glass-layer {
+  .reader-control-glass-layer,
+  .liquidglass::after {
     filter: none;
+    transition: none;
   }
 }
 

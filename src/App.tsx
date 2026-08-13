@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect, type UIEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   FileText, 
@@ -65,6 +65,7 @@ export default function App() {
     const saved = localStorage.getItem('neurolens-profile');
     return saved ? JSON.parse(saved) : READING_PROFILES.default;
   });
+  const [isContentScrolled, setIsContentScrolled] = useState(false);
 
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -99,6 +100,7 @@ export default function App() {
       setCurrentTab(targetTab);
     }
     setIsAIBarOpen(false);
+    setIsContentScrolled(false);
   };
 
   const handleStartReading = (newText: string) => {
@@ -119,6 +121,7 @@ export default function App() {
 
     setIsReading(true);
     setCurrentTab('reader');
+    setIsContentScrolled(false);
   };
 
   const handleBack = () => {
@@ -128,8 +131,13 @@ export default function App() {
       setDirection(newIndex > oldIndex ? 1 : -1);
       setIsReading(false);
       setCurrentTab('manifesto');
+      setIsContentScrolled(false);
     }
   };
+
+  const handleContentScroll = useCallback((event: UIEvent<HTMLElement>) => {
+    setIsContentScrolled(event.currentTarget.scrollTop > 8);
+  }, []);
 
   const navigateTo = (tab: TabType) => {
     handleTabChange(tab);
@@ -145,7 +153,10 @@ export default function App() {
       <div className="noise" />
 
       {/* Global Header */}
-      <header className="liquidglass app-header h-14 sm:h-16 flex items-center gap-2 px-3 sm:px-8 shrink-0 z-50">
+      <header className={cn(
+        "liquidglass app-header h-14 sm:h-16 flex items-center gap-2 px-3 sm:px-8 shrink-0 z-50",
+        isContentScrolled && "is-scrolled"
+      )}>
         <svg
           className="glass-surface__filter nav-glass-definitions"
           xmlns="http://www.w3.org/2000/svg"
@@ -243,7 +254,7 @@ export default function App() {
               transition={slideTransition}
               className="absolute inset-0 w-full h-full flex flex-col overflow-hidden"
             >
-              <div className="flex-1 overflow-y-auto">
+              <div className="flex-1 overflow-y-auto" onScroll={handleContentScroll}>
                 <Landing onStart={handleStartReading} />
               </div>
             </motion.div>
@@ -257,6 +268,7 @@ export default function App() {
               exit="exit"
               transition={slideTransition}
               className="absolute inset-0 w-full h-full flex flex-col overflow-y-auto px-4 py-8 sm:px-8 sm:py-12 md:p-16"
+              onScroll={handleContentScroll}
             >
               <div className="max-w-5xl mx-auto">
                 <div className="mb-12">
@@ -352,6 +364,7 @@ export default function App() {
               exit="exit"
               transition={slideTransition}
               className="absolute inset-0 w-full h-full flex flex-col overflow-y-auto px-4 py-8 sm:px-8 sm:py-12 md:p-16"
+              onScroll={handleContentScroll}
             >
               <div className="max-w-5xl mx-auto">
                 <div className="mb-10">
@@ -508,6 +521,7 @@ export default function App() {
               exit="exit"
               transition={slideTransition}
               className="absolute inset-0 w-full h-full flex flex-col overflow-y-auto px-4 py-8 sm:px-8 sm:py-12 md:p-16"
+              onScroll={handleContentScroll}
             >
               <div className="max-w-3xl">
                 <h1 className="text-4xl font-semibold text-art-text mb-2">Settings</h1>
@@ -566,7 +580,10 @@ export default function App() {
 
               {/* Reader View */}
               <main className="flex-1 min-w-0 relative flex flex-col overflow-hidden reader-surface">
-                <div className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth smooth-scroll overscroll-contain">
+                <div
+                  className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth smooth-scroll overscroll-contain"
+                  onScroll={handleContentScroll}
+                >
                   <Reader 
                     text={text} 
                     profile={customProfile}
