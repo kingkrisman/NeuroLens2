@@ -134,7 +134,7 @@ ${Object.entries(simplifyResult.explanations)
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={onClose}
-        className="fixed inset-0 bg-slate-950/50 backdrop-blur-xs z-40 cursor-pointer"
+        className="fixed inset-0 bg-slate-950/50 z-40 cursor-pointer"
       />
 
       <motion.div
@@ -142,7 +142,7 @@ ${Object.entries(simplifyResult.explanations)
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: "100%" }}
         transition={{ type: "spring", damping: 28, stiffness: 260 }}
-        className="fixed sm:absolute inset-y-0 right-0 w-full sm:w-[min(440px,90vw)] fluid-glass-strong z-50 flex flex-col overflow-hidden"
+        className="fixed sm:absolute inset-y-0 right-0 w-full sm:w-[min(440px,90vw)] bg-white border-l border-art-text/10 shadow-2xl z-50 flex flex-col overflow-hidden"
       >
       {/* Decorative Aura */}
       <div className="absolute -top-24 -right-24 w-64 h-64 bg-orange-500/5 blur-[100px] rounded-full pointer-events-none" />
@@ -186,7 +186,7 @@ ${Object.entries(simplifyResult.explanations)
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
                     onClick={() => processAI(action.id)}
-                    className="w-full text-left p-4 sm:p-6 fluid-glass rounded-[24px] sm:rounded-[32px] transition-all group relative overflow-hidden fluid-glass-refraction"
+                    className="w-full text-left p-4 sm:p-6 bg-white border border-art-text/8 rounded-[24px] sm:rounded-[32px] shadow-sm transition-all group relative overflow-hidden hover:border-orange-300 hover:shadow-md"
                   >
                     <div className="absolute inset-0 bg-orange-500/[0.02] opacity-0 group-hover:opacity-100 transition-opacity" />
                     <div className="flex items-center justify-between mb-2 relative z-10">
@@ -360,7 +360,7 @@ ${Object.entries(simplifyResult.explanations)
         </AnimatePresence>
       </div>
 
-      <div className="p-4 sm:p-10 fluid-glass-pill relative">
+      <div className="p-4 sm:p-10 bg-art-secondary border-t border-art-text/8 relative">
         <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-orange-500/20 to-transparent" />
         <div className="flex items-start gap-4">
           <div className="w-8 h-8 rounded-full bg-art-text/5 flex items-center justify-center shrink-0">

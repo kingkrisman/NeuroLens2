@@ -49,24 +49,34 @@ export default function Sidebar({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onToggle}
-            className="fixed inset-0 bg-slate-950/50 backdrop-blur-xs z-40 lg:hidden cursor-pointer"
+            className="fixed inset-0 bg-slate-950/50 z-40 lg:hidden cursor-pointer"
           />
         )}
       </AnimatePresence>
 
       <motion.aside
         initial={false}
-        animate={{ width: isOpen ? 300 : 0 }}
+        animate={{ width: isOpen ? 'min(300px, calc(100vw - 1rem))' : 0 }}
         className={cn(
-          "fluid-glass border-r border-white/60 h-full flex flex-col overflow-visible shadow-2xl lg:shadow-none z-50 lg:z-30 transition-all duration-300",
+          "liquid-glass-sidebar h-full flex flex-col overflow-visible shadow-2xl lg:shadow-none z-50 lg:z-30 transition-all duration-300",
           "fixed lg:relative inset-y-0 left-0"
         )}
       >
         <div className={cn(
-          isOpen ? "w-[min(300px,85vw)] min-w-[min(300px,85vw)] lg:w-[300px] lg:min-w-[300px]" : "w-0 min-w-0",
-          "flex flex-col h-full overflow-hidden transition-[width,min-width] duration-200"
+          isOpen ? "w-[min(300px,calc(100vw-1rem))] min-w-[min(300px,calc(100vw-1rem))] lg:w-[300px] lg:min-w-[300px]" : "w-0 min-w-0",
+          "sidebar-glass-shell relative isolate flex flex-col h-full overflow-hidden transition-[width,min-width] duration-200"
         )}>
-          <div className="p-4 sm:p-6 border-b border-white/40 flex items-center justify-between">
+          <svg className="sidebar-glass-definitions" aria-hidden="true" focusable="false">
+            <filter id="sidebar-glass-filter" x="0" y="0" width="100%" height="100%" filterUnits="objectBoundingBox">
+              <feTurbulence type="fractalNoise" baseFrequency="0.003 0.007" numOctaves="1" seed="31" result="sidebarTurbulence" />
+              <feDisplacementMap in="SourceGraphic" in2="sidebarTurbulence" scale="70" xChannelSelector="R" yChannelSelector="G" />
+            </filter>
+          </svg>
+          <div className="liquid-glass--bend sidebar-glass-bend" aria-hidden="true" />
+          <div className="liquid-glass--face sidebar-glass-face" aria-hidden="true" />
+          <div className="liquid-glass--edge sidebar-glass-edge" aria-hidden="true" />
+          <div className="sidebar-glass-content">
+          <div className="p-4 sm:p-6 flex items-center justify-between">
             <span className="font-semibold text-art-text">Reading Options</span>
             <button 
               onClick={onToggle} 
@@ -106,13 +116,13 @@ export default function Sidebar({
                     setProfile(READING_PROFILES[m.id]);
                   }}
                   className={cn(
-                    "w-full flex items-center gap-3 p-3 rounded-xl text-sm transition-all font-semibold cursor-pointer fluid-glass-refraction",
+                    "w-full flex items-center gap-3 p-3 rounded-xl text-sm transition-all font-semibold cursor-pointer",
                     mode === m.id
-                      ? "fluid-glass-active text-art-text"
-                      : "fluid-glass-button text-art-text/70"
+                      ? "surface-selected text-art-text"
+                      : "surface-button text-art-text/70"
                   )}
                 >
-                  <m.icon size={16} className={mode === m.id ? "text-white" : "text-art-text/40"} />
+                  <m.icon size={16} className={mode === m.id ? "text-blue-600" : "text-art-text/40"} />
                   {m.label}
                 </motion.button>
               ))}
@@ -198,10 +208,10 @@ export default function Sidebar({
                       whileTap={{ scale: 0.97 }}
                       onClick={() => setProfile({ ...profile, fontFamily: font.id })}
                       className={cn(
-                        "p-3 rounded-xl border text-sm transition-all cursor-pointer font-medium fluid-glass-refraction",
+                        "p-3 rounded-xl border text-sm transition-all cursor-pointer font-medium",
                         profile.fontFamily === font.id
-                          ? "fluid-glass-active text-blue-900"
-                          : "fluid-glass-button text-art-text/70"
+                          ? "surface-selected text-blue-900"
+                          : "surface-button text-art-text/70"
                       )}
                     >
                       <span className={font.class}>{font.label}</span>
@@ -269,7 +279,7 @@ export default function Sidebar({
                 </button>
               </div>
 
-              <div className="mt-3 fluid-glass-pill p-3 rounded-2xl space-y-2">
+              <div className="mt-3 panel-pill p-3 rounded-2xl space-y-2">
                 <div className="flex items-center justify-between text-xs font-semibold text-art-text/70">
                   <span>Speed</span>
                   <span className="text-emerald-600 font-mono font-bold">{autoScrollWpm} WPM</span>
@@ -343,7 +353,7 @@ export default function Sidebar({
                     btn.classList.remove("bg-green-600");
                   }, 2000);
                 }}
-                className="w-full py-4 text-white text-[10px] uppercase font-bold tracking-[0.4em] rounded-2xl transition-all shadow-xl shadow-art-text/10 fluid-glass-refraction"
+                className="sidebar-vault-button w-full py-4 bg-art-text text-white text-[10px] uppercase font-bold tracking-[0.4em] rounded-2xl transition-all shadow-xl shadow-art-text/10 hover:bg-blue-600"
               >
                 Vault Settings
               </button>
@@ -352,7 +362,7 @@ export default function Sidebar({
 
           {/* Reading Flow Stats simulation */}
           <section className="mt-auto">
-            <div className="fluid-glass rounded-2xl p-5 space-y-2">
+            <div className="panel-surface rounded-2xl p-5 space-y-2">
               <p className="text-[10px] uppercase tracking-widest font-bold opacity-40 mb-1">Reading Flow</p>
               <p className="text-3xl font-serif italic">342 <span className="text-xs font-sans not-italic font-bold opacity-60 ml-1">WPM</span></p>
               <div className="mt-4 flex gap-1 items-end h-8">
@@ -365,12 +375,13 @@ export default function Sidebar({
             </div>
           </section>
         </div>
+        </div>
       </div>
 
       {!isOpen && (
         <button 
           onClick={onToggle}
-          className="fixed md:absolute left-0 md:left-auto top-1/2 -translate-y-1/2 md:-right-4 w-8 h-12 fluid-glass-button rounded-r-xl flex items-center justify-center z-50 cursor-pointer"
+          className="fixed md:absolute left-0 md:left-auto top-1/2 -translate-y-1/2 md:-right-8 w-8 h-12 bg-white border border-art-text/10 rounded-r-xl flex items-center justify-center z-50 cursor-pointer shadow-md hover:bg-art-secondary"
           title="Open Reading Options"
         >
           <ChevronRight size={16} className="text-zinc-600" />

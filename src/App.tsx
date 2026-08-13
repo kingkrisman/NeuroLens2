@@ -1,9 +1,9 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect, type UIEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   FileText, 
   Settings2, 
-  Sparkles, 
+
   Brain, 
   Maximize2, 
   Type, 
@@ -53,9 +53,8 @@ export default function App() {
   const [direction, setDirection] = useState<number>(0);
   const [isReading, setIsReading] = useState(false);
   const [mode, setMode] = useState<ReadingMode>('default');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(() => window.matchMedia('(min-width: 1024px)').matches);
   const [isAIBarOpen, setIsAIBarOpen] = useState(false);
-  const [isBooting, setIsBooting] = useState(true);
   const [isAutoScrolling, setIsAutoScrolling] = useState(false);
   const [autoScrollWpm, setAutoScrollWpm] = useState(220);
   const [recentSessions, setRecentSessions] = useState<{ title: string; content: string; openedAt: number }[]>(() => {
@@ -66,6 +65,7 @@ export default function App() {
     const saved = localStorage.getItem('neurolens-profile');
     return saved ? JSON.parse(saved) : READING_PROFILES.default;
   });
+  const [isContentScrolled, setIsContentScrolled] = useState(false);
 
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -74,11 +74,6 @@ export default function App() {
       document.exitFullscreen();
     }
   };
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => setIsBooting(false), 1600);
-    return () => window.clearTimeout(timer);
-  }, []);
 
   // Persistent saving
   useEffect(() => {
@@ -105,6 +100,7 @@ export default function App() {
       setCurrentTab(targetTab);
     }
     setIsAIBarOpen(false);
+    setIsContentScrolled(false);
   };
 
   const handleStartReading = (newText: string) => {
@@ -125,6 +121,7 @@ export default function App() {
 
     setIsReading(true);
     setCurrentTab('reader');
+    setIsContentScrolled(false);
   };
 
   const handleBack = () => {
@@ -134,8 +131,13 @@ export default function App() {
       setDirection(newIndex > oldIndex ? 1 : -1);
       setIsReading(false);
       setCurrentTab('manifesto');
+      setIsContentScrolled(false);
     }
   };
+
+  const handleContentScroll = useCallback((event: UIEvent<HTMLElement>) => {
+    setIsContentScrolled(event.currentTarget.scrollTop > 8);
+  }, []);
 
   const navigateTo = (tab: TabType) => {
     handleTabChange(tab);
@@ -148,43 +150,101 @@ export default function App() {
     )}
     style={{ backgroundColor: customProfile.tintColor !== 'transparent' ? customProfile.tintColor : undefined }}
     >
-      <AnimatePresence>
-        {isBooting && (
-          <motion.div
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.45, ease: 'easeOut' }}
-            className="fixed inset-0 z-[200] flex items-center justify-center overflow-hidden bg-[#0b0d12] text-white"
-          >
-            <div className="boot-orbit boot-orbit-one" />
-            <div className="boot-orbit boot-orbit-two" />
-            <div className="relative flex flex-col items-center">
-              <div className="boot-mark">N</div>
-              <div className="mt-6 text-[10px] font-bold uppercase tracking-[0.6em] text-white/50">NeuroLens</div>
-              <div className="mt-5 flex items-center gap-2 text-[9px] uppercase tracking-[0.3em] text-white/30">
-                <span className="boot-dot" /> Calibrating your reading space
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
       <div className="noise" />
 
       {/* Global Header */}
-      <header className="h-14 sm:h-16 flex items-center justify-between px-2.5 sm:px-8 fluid-glass shrink-0 z-50">
-        <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
-          <button
-            onClick={handleBack}
-            className="w-7 h-7 sm:w-9 sm:h-9 flex items-center justify-center text-art-text/40 hover:text-art-text transition-colors rounded-full hover:bg-art-secondary cursor-pointer"
-            title="Go Back"
+      <header className={cn(
+        "liquidglass app-header h-14 sm:h-16 flex items-center gap-2 px-3 sm:px-8 shrink-0 z-50",
+        isContentScrolled && "is-scrolled"
+      )}>
+        <svg
+          className="glass-surface__filter nav-glass-definitions"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <filter
+            id="header-glass-filter"
+            colorInterpolationFilters="sRGB"
+            x="0%"
+            y="0%"
+            width="100%"
+            height="100%"
           >
-            <ArrowLeft size={18} className="sm:block hidden" />
-            <ArrowLeft size={15} className="sm:hidden block" />
-          </button>
-          <span className="text-sm sm:text-lg font-bold tracking-tight text-art-text">NeuroLens</span>
-        </div>
+            <feTurbulence
+              type="fractalNoise"
+              baseFrequency="0.012 0.018"
+              numOctaves="3"
+              seed="18"
+              result="distortionMap"
+            />
+            <feDisplacementMap
+              in="SourceGraphic"
+              in2="distortionMap"
+              scale="-14"
+              xChannelSelector="R"
+              yChannelSelector="G"
+              result="dispRed"
+            />
+            <feColorMatrix
+              in="dispRed"
+              type="matrix"
+              values="1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"
+              result="redChannel"
+            />
+            <feDisplacementMap
+              in="SourceGraphic"
+              in2="distortionMap"
+              scale="-18"
+              xChannelSelector="R"
+              yChannelSelector="G"
+              result="dispGreen"
+            />
+            <feColorMatrix
+              in="dispGreen"
+              type="matrix"
+              values="0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 0"
+              result="greenChannel"
+            />
+            <feDisplacementMap
+              in="SourceGraphic"
+              in2="distortionMap"
+              scale="-22"
+              xChannelSelector="R"
+              yChannelSelector="G"
+              result="dispBlue"
+            />
+            <feColorMatrix
+              in="dispBlue"
+              type="matrix"
+              values="0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 0"
+              result="blueChannel"
+            />
+            <feBlend in="redChannel" in2="greenChannel" mode="screen" result="redGreen" />
+            <feBlend in="redGreen" in2="blueChannel" mode="screen" result="refractedSurface" />
+            <feGaussianBlur in="refractedSurface" stdDeviation="0.35" />
+          </filter>
+          <filter id="header-nav-distortion" primitiveUnits="objectBoundingBox">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="0.04" result="blurredNav" />
+            <feDisplacementMap in="blurredNav" in2="blurredNav" scale="0.5" xChannelSelector="R" yChannelSelector="G" />
+          </filter>
+        </svg>
+        <div className="glass-filter app-header-glass-filter" aria-hidden="true" />
+        <div className="glass-overlay app-header-glass-overlay" aria-hidden="true" />
+        <div className="glass-specular app-header-glass-specular" aria-hidden="true" />
+        <div className="app-header-content">
+          <div className="header-brand flex items-center gap-1.5 sm:gap-3 shrink-0 rounded-full px-1.5 py-1">
+            <button
+              onClick={handleBack}
+              className="header-back-button w-7 h-7 sm:w-9 sm:h-9 flex items-center justify-center text-art-text/40 transition-colors rounded-full cursor-pointer"
+              title="Go Back"
+            >
+              <ArrowLeft size={18} className="sm:block hidden" />
+              <ArrowLeft size={15} className="sm:hidden block" />
+            </button>
+          </div>
 
-        <nav className="flex items-center gap-0.5 sm:gap-1 fluid-glass-pill p-1 rounded-full text-[11px] sm:text-sm font-semibold text-art-text/60 overflow-x-auto max-w-[calc(100vw-9.5rem)] sm:max-w-none no-scrollbar shrink">
+          <nav className="header-nav-switcher flex-1 min-w-0 h-9 sm:h-10 max-w-4xl mx-auto self-center flex items-center justify-start sm:justify-center gap-0.5 sm:gap-1 p-1 rounded-lg sm:rounded-full text-[11px] sm:text-sm font-semibold overflow-x-auto no-scrollbar">
           {[
             { id: 'manifesto', label: 'Explore' },
             { id: 'reader', label: 'Read', disabled: !text },
@@ -201,7 +261,7 @@ export default function App() {
                 disabled={tab.disabled}
                 onClick={() => handleTabChange(tab.id as TabType)}
                 className={cn(
-                  "relative px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-full transition-all cursor-pointer whitespace-nowrap shrink-0",
+                  "header-nav-option relative px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-full transition-all cursor-pointer whitespace-nowrap shrink-0",
                   tab.disabled && "opacity-30 cursor-not-allowed",
                   isActive ? "text-art-text font-bold" : "hover:text-art-text"
                 )}
@@ -209,7 +269,7 @@ export default function App() {
                 {isActive && (
                   <motion.div
                     layoutId="activeTabPill"
-                    className="absolute inset-0 fluid-glass-active rounded-full"
+                    className="header-nav-active absolute inset-0 rounded-full"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
@@ -217,25 +277,7 @@ export default function App() {
               </button>
             );
           })}
-        </nav>
-
-        <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
-          <button
-            onClick={() => isReading && setIsAIBarOpen(!isAIBarOpen)}
-            className={cn(
-              "px-2.5 sm:px-5 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-full sm:rounded-lg transition-all shrink-0 flex items-center gap-1.5 cursor-pointer fluid-glass-refraction",
-              !isReading && "opacity-40 cursor-not-allowed",
-              isAIBarOpen
-                ? "fluid-glass-active text-art-text"
-                : "fluid-glass-button text-art-text"
-            )}
-            disabled={!isReading}
-            title={isReading ? "Toggle AI Synapse Assistant" : "Portal Active"}
-          >
-            <Sparkles size={14} className={cn("text-amber-500", isAIBarOpen && "text-amber-300")} />
-            <span className="hidden sm:inline">{isReading ? "AI Assistant" : "Portal"}</span>
-            <span className="sm:hidden font-bold">{isReading ? "AI" : "Portal"}</span>
-          </button>
+          </nav>
         </div>
       </header>
 
@@ -252,7 +294,7 @@ export default function App() {
               transition={slideTransition}
               className="absolute inset-0 w-full h-full flex flex-col overflow-hidden"
             >
-              <div className="flex-1 overflow-y-auto">
+              <div className="flex-1 overflow-y-auto" onScroll={handleContentScroll}>
                 <Landing onStart={handleStartReading} />
               </div>
             </motion.div>
@@ -266,6 +308,7 @@ export default function App() {
               exit="exit"
               transition={slideTransition}
               className="absolute inset-0 w-full h-full flex flex-col overflow-y-auto px-4 py-8 sm:px-8 sm:py-12 md:p-16"
+              onScroll={handleContentScroll}
             >
               <div className="max-w-5xl mx-auto">
                 <div className="mb-12">
@@ -361,6 +404,7 @@ export default function App() {
               exit="exit"
               transition={slideTransition}
               className="absolute inset-0 w-full h-full flex flex-col overflow-y-auto px-4 py-8 sm:px-8 sm:py-12 md:p-16"
+              onScroll={handleContentScroll}
             >
               <div className="max-w-5xl mx-auto">
                 <div className="mb-10">
@@ -517,6 +561,7 @@ export default function App() {
               exit="exit"
               transition={slideTransition}
               className="absolute inset-0 w-full h-full flex flex-col overflow-y-auto px-4 py-8 sm:px-8 sm:py-12 md:p-16"
+              onScroll={handleContentScroll}
             >
               <div className="max-w-3xl">
                 <h1 className="text-4xl font-semibold text-art-text mb-2">Settings</h1>
@@ -574,8 +619,11 @@ export default function App() {
               />
 
               {/* Reader View */}
-              <main className="flex-1 min-w-0 relative flex flex-col overflow-hidden bg-white">
-                <div className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth smooth-scroll overscroll-contain">
+              <main className="flex-1 min-w-0 relative flex flex-col overflow-hidden reader-surface">
+                <div
+                  className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth smooth-scroll overscroll-contain"
+                  onScroll={handleContentScroll}
+                >
                   <Reader 
                     text={text} 
                     profile={customProfile}
@@ -601,7 +649,7 @@ export default function App() {
         </AnimatePresence>
       </div>
 
-      <footer className="min-h-12 shrink-0 px-4 py-3 sm:px-10 flex items-center justify-center text-center text-[10px] sm:text-xs text-art-text/50 fluid-glass">
+      <footer className="min-h-12 shrink-0 px-4 py-3 sm:px-10 flex items-center justify-center text-center text-[10px] sm:text-xs text-art-text/50 panel-surface">
         NeuroLens © 2024 · Crafted for neurodivergent minds
       </footer>
     </div>

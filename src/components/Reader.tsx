@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { createPortal } from 'react-dom';
 import { Volume2, Copy, Check, ChevronRight, Download, Eye, Share2, Zap, Play, Pause, RotateCcw, X, Sliders, MoveVertical, ChevronsDown, Minus, Plus, SlidersHorizontal, StickyNote, Trash2, Save, FileText } from 'lucide-react';
 import { cn, processBionicText } from '../lib/utils';
 import { ReadingProfile } from '../types';
@@ -40,6 +41,8 @@ export default function Reader({
   const setIsAutoScrolling = propSetIsAutoScrolling ?? setLocalAutoScrolling;
   const autoScrollWpm = propAutoScrollWpm ?? localAutoScrollWpm;
   const setAutoScrollWpm = propSetAutoScrollWpm ?? setLocalAutoScrollWpm;
+
+  const dockConstraintsRef = useRef<HTMLDivElement>(null);
 
   // Quick Note state & persistence
   const [isQuickNoteOpen, setIsQuickNoteOpen] = useState(false);
@@ -406,7 +409,7 @@ export default function Reader({
     <div
       onMouseMove={(e) => rulerEnabled && setMouseY(e.clientY)}
       className={cn(
-        "max-w-4xl mx-auto px-4 sm:px-8 md:px-12 py-10 sm:py-16 md:py-20 pb-32 sm:pb-40 transition-all duration-300 min-h-full bg-white relative",
+        "max-w-4xl mx-auto px-4 sm:px-8 md:px-12 py-10 sm:py-16 md:py-20 pb-32 sm:pb-40 transition-all duration-300 min-h-full reader-paper relative",
         profile.fontFamily,
         focusGuideEnabled && activeLine !== null && "focus-highlight"
       )}
@@ -417,8 +420,16 @@ export default function Reader({
         wordSpacing: `${profile.wordSpacing}em`,
       }}
     >
+      <svg className="reader-glass-definitions" aria-hidden="true" focusable="false">
+        <filter id="glass-filter-_r_b_" x="0%" y="0%" width="100%" height="100%" colorInterpolationFilters="sRGB">
+          <feTurbulence type="fractalNoise" baseFrequency="0.012 0.018" numOctaves="2" seed="24" result="surfaceNoise" />
+          <feDisplacementMap in="SourceGraphic" in2="surfaceNoise" scale="12" xChannelSelector="R" yChannelSelector="G" result="distortedSurface" />
+          <feGaussianBlur in="distortedSurface" stdDeviation="0.35" />
+        </filter>
+      </svg>
+
       {/* Scroll Progress Bar with Glowing Accent */}
-      <div className="fixed top-14 sm:top-16 left-0 right-0 h-1 bg-art-text/5 z-20 pointer-events-none">
+      <div className="fixed top-24 sm:top-28 lg:top-16 left-0 right-0 h-1 bg-art-text/5 z-20 pointer-events-none">
         <motion.div 
           className="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 shadow-[0_0_12px_rgba(59,130,246,0.6)]" 
           animate={{ width: `${readingProgress}%` }}
@@ -464,7 +475,7 @@ export default function Reader({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] bg-black/80 backdrop-blur-md flex flex-col items-center justify-center p-4 sm:p-8"
+            className="fixed inset-0 z-[200] bg-black/80 flex flex-col items-center justify-center p-4 sm:p-8"
           >
             <div className="bg-white rounded-3xl p-6 sm:p-10 max-w-xl w-full text-center shadow-2xl relative border border-white/20">
               {/* Modal Header */}
@@ -616,7 +627,7 @@ export default function Reader({
             initial={{ opacity: 0, y: -20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.9 }}
-            className="fixed top-20 right-4 sm:right-8 z-[90] flex items-center gap-2.5 px-3.5 py-2 bg-slate-950/90 text-white backdrop-blur-md border border-slate-800 rounded-full shadow-2xl text-xs font-medium"
+            className="fixed top-20 right-4 sm:right-8 z-[90] flex items-center gap-2.5 px-3.5 py-2 bg-slate-950 text-white border border-slate-800 rounded-full shadow-2xl text-xs font-medium"
           >
             <span className="relative flex h-2.5 w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -661,14 +672,14 @@ export default function Reader({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsQuickNoteOpen(false)}
-              className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-[114] cursor-pointer"
+              className="fixed inset-0 bg-slate-950/60 z-[114] cursor-pointer"
             />
             <motion.div
               initial={{ opacity: 0, y: 20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
               transition={{ type: "spring", stiffness: 350, damping: 28 }}
-              className="fixed inset-x-3 bottom-4 sm:bottom-auto sm:top-20 sm:right-8 sm:left-auto z-[115] w-auto sm:w-[380px] max-w-lg mx-auto bg-slate-900 text-white rounded-3xl shadow-2xl border border-slate-700/80 backdrop-blur-2xl overflow-hidden flex flex-col"
+              className="fixed inset-x-3 bottom-4 sm:bottom-auto sm:top-20 sm:right-8 sm:left-auto z-[115] w-auto sm:w-[380px] max-w-lg mx-auto bg-slate-900 text-white rounded-3xl shadow-2xl border border-slate-700/80 overflow-hidden flex flex-col"
             >
               {/* Header */}
               <div className="flex items-center justify-between px-4 py-3 bg-slate-800/60 border-b border-slate-700/60">
@@ -741,8 +752,11 @@ export default function Reader({
         )}
       </AnimatePresence>
 
-      {/* Floating Action Dock (Down Tab) */}
-      <div className="fixed bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 z-[100] max-w-[calc(100vw-1.25rem)] w-auto">
+      {createPortal(
+        <>
+          {/* Floating Action Dock (Down Tab) */}
+          <div ref={dockConstraintsRef} className="fixed inset-0 pointer-events-none" aria-hidden="true" />
+      <div className="fixed bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 z-[100] max-w-[calc(100vw-1rem)] w-auto">
         {/* Auto-Scroll Speed Popover / Drawer */}
         <AnimatePresence>
           {showAutoScrollSettings && (
@@ -752,13 +766,13 @@ export default function Reader({
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setShowAutoScrollSettings(false)}
-                className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-[114] sm:hidden cursor-pointer"
+                className="fixed inset-0 bg-slate-950/60 z-[114] sm:hidden cursor-pointer"
               />
               <motion.div
                 initial={{ opacity: 0, y: 16, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 16, scale: 0.95 }}
-                className="fixed inset-x-3 bottom-16 sm:bottom-16 sm:absolute sm:inset-auto sm:left-1/2 sm:-translate-x-1/2 z-[115] bg-slate-900 text-white p-4 sm:p-5 rounded-3xl shadow-2xl border border-slate-700/80 backdrop-blur-2xl w-auto sm:w-[320px] max-w-md mx-auto"
+                className="fixed inset-x-3 bottom-16 sm:bottom-16 sm:absolute sm:inset-auto sm:left-1/2 sm:-translate-x-1/2 z-[115] bg-slate-900 text-white p-4 sm:p-5 rounded-3xl shadow-2xl border border-slate-700/80 w-auto sm:w-[320px] max-w-md mx-auto"
               >
                 <div className="w-10 h-1 bg-slate-700 rounded-full mx-auto mb-3 sm:hidden" />
                 <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-800">
@@ -845,13 +859,13 @@ export default function Reader({
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={() => setShowMoreTools(false)}
-                className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-[114] sm:hidden cursor-pointer"
+                className="fixed inset-0 bg-slate-950/60 z-[114] sm:hidden cursor-pointer"
               />
               <motion.div
                 initial={{ opacity: 0, y: 16, scale: 0.95 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 16, scale: 0.95 }}
-                className="fixed inset-x-3 bottom-16 sm:bottom-16 sm:absolute sm:inset-auto sm:right-0 z-[115] bg-slate-900 text-slate-100 p-4 rounded-3xl shadow-2xl border border-slate-700/80 backdrop-blur-2xl w-auto sm:w-[240px] max-w-md mx-auto"
+                className="fixed inset-x-3 bottom-16 sm:bottom-16 sm:absolute sm:inset-auto sm:right-0 z-[115] bg-slate-900 text-slate-100 p-4 rounded-3xl shadow-2xl border border-slate-700/80 w-auto sm:w-[240px] max-w-md mx-auto"
               >
                 <div className="w-10 h-1 bg-slate-700 rounded-full mx-auto mb-3 sm:hidden" />
                 <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-800 text-xs font-bold uppercase tracking-wider text-slate-400">
@@ -962,14 +976,22 @@ export default function Reader({
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ type: "spring", stiffness: 350, damping: 28 }}
-          className="bg-slate-900/95 text-slate-100 p-1.5 sm:p-2 rounded-full border border-slate-700/80 shadow-2xl backdrop-blur-2xl flex items-center justify-center gap-1 sm:gap-2 max-w-full overflow-hidden"
+          drag
+          dragConstraints={dockConstraintsRef}
+          dragElastic={0.08}
+          dragMomentum={false}
+          whileDrag={{ scale: 1.02 }}
+          className="reader-control-dock text-slate-100 p-1.5 sm:p-2 rounded-full flex items-center justify-center gap-1 sm:gap-2 max-w-full overflow-x-auto cursor-grab active:cursor-grabbing"
         >
+          <div className="reader-control-glass-layer" aria-hidden="true" />
+          <div className="reader-control-glass-highlight" aria-hidden="true" />
+
           {/* Auto-Scroll Button */}
-          <div className="flex items-center bg-slate-800/80 rounded-full p-0.5 border border-slate-700/60 shrink-0">
+          <div className="reader-control-group flex items-center rounded-full p-0.5 shrink-0">
             <button
               onClick={() => setIsAutoScrolling(!isAutoScrolling)}
               className={cn(
-                "px-2.5 sm:px-3 py-1.5 rounded-full font-semibold text-xs flex items-center gap-1.5 transition-all cursor-pointer",
+                "reader-control-button px-2.5 sm:px-3 py-1.5 rounded-full font-semibold text-xs flex items-center gap-1.5 transition-all cursor-pointer",
                 isAutoScrolling
                   ? "bg-emerald-500 text-slate-950 font-bold shadow-xs"
                   : "text-slate-200 hover:text-white hover:bg-slate-700/70"
@@ -985,7 +1007,7 @@ export default function Reader({
                 setShowMoreTools(false);
               }}
               className={cn(
-                "px-2 py-1.5 rounded-full text-[11px] font-mono font-semibold transition-all cursor-pointer flex items-center gap-1",
+                "reader-control-button px-2 py-1.5 rounded-full text-[11px] font-mono font-semibold transition-all cursor-pointer flex items-center gap-1",
                 showAutoScrollSettings ? "text-emerald-400 bg-slate-700" : "text-slate-300 hover:text-white"
               )}
               title="Adjust Auto-Scroll WPM"
@@ -999,7 +1021,7 @@ export default function Reader({
           <button
             onClick={toggleSpeech}
             className={cn(
-              "px-2.5 sm:px-3 py-1.5 rounded-full font-semibold text-xs flex items-center gap-1.5 transition-all cursor-pointer shrink-0",
+              "reader-control-button px-2.5 sm:px-3 py-1.5 rounded-full font-semibold text-xs flex items-center gap-1.5 transition-all cursor-pointer shrink-0",
               isSpeaking
                 ? "bg-amber-400 text-slate-950 font-bold animate-pulse"
                 : "text-slate-200 hover:text-white hover:bg-slate-800/80"
@@ -1007,7 +1029,7 @@ export default function Reader({
             title={isSpeaking ? "Stop Read Aloud" : "Read Aloud"}
           >
             <Volume2 size={15} className={cn(isSpeaking && "animate-bounce")} />
-            <span className="hidden md:inline">{isSpeaking ? "Stop" : "Read Aloud"}</span>
+            <span className="hidden lg:inline">{isSpeaking ? "Stop" : "Read Aloud"}</span>
           </button>
 
           {/* Quick Note */}
@@ -1018,7 +1040,7 @@ export default function Reader({
               setShowMoreTools(false);
             }}
             className={cn(
-              "px-2.5 sm:px-3 py-1.5 rounded-full font-semibold text-xs flex items-center gap-1.5 transition-all cursor-pointer shrink-0 relative",
+              "reader-control-button px-2.5 sm:px-3 py-1.5 rounded-full font-semibold text-xs flex items-center gap-1.5 transition-all cursor-pointer shrink-0 relative",
               isQuickNoteOpen
                 ? "bg-amber-400 text-slate-950 font-bold"
                 : quickNoteText.trim()
@@ -1028,7 +1050,7 @@ export default function Reader({
             title="Quick Note"
           >
             <StickyNote size={15} />
-            <span className="hidden md:inline">Note</span>
+            <span className="hidden lg:inline">Note</span>
             {quickNoteText.trim().length > 0 && !isQuickNoteOpen && (
               <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
             )}
@@ -1042,17 +1064,17 @@ export default function Reader({
               setShowAutoScrollSettings(false);
               setShowMoreTools(false);
             }}
-            className="px-2.5 sm:px-3 py-1.5 rounded-full font-semibold text-xs flex items-center gap-1.5 bg-blue-600 text-white hover:bg-blue-500 transition-all cursor-pointer shadow-xs shrink-0"
+            className="reader-control-button px-2.5 sm:px-3 py-1.5 rounded-full font-semibold text-xs flex items-center gap-1.5 bg-blue-600 text-white hover:bg-blue-500 transition-all cursor-pointer shadow-xs shrink-0"
             title="Speed Reader (RSVP)"
           >
             <Zap size={15} />
-            <span className="hidden md:inline">Speed</span>
+            <span className="hidden lg:inline">Speed</span>
           </button>
 
-          <div className="w-[1px] h-3.5 bg-slate-700/80 mx-0.5 shrink-0 hidden sm:block" />
+          <div className="reader-control-divider w-[1px] h-3.5 mx-0.5 shrink-0 hidden sm:block" />
 
           {/* Desktop/Tablet Direct Utilities */}
-          <div className="hidden sm:flex items-center gap-0.5 shrink-0">
+          <div className="hidden lg:flex items-center gap-0.5 shrink-0">
             <button
               onClick={copyToClipboard}
               className="p-2 text-slate-300 hover:text-white hover:bg-slate-800/80 rounded-full transition-all cursor-pointer"
@@ -1086,6 +1108,9 @@ export default function Reader({
           </button>
         </motion.div>
       </div>
+        </>,
+        document.body
+      )}
 
     </div>
   );
