@@ -229,18 +229,22 @@ export default function App() {
             <feDisplacementMap in="blurredNav" in2="blurredNav" scale="0.5" xChannelSelector="R" yChannelSelector="G" />
           </filter>
         </svg>
-        <div className="header-brand flex items-center gap-1.5 sm:gap-3 shrink-0 rounded-full px-1.5 py-1">
-          <button
-            onClick={handleBack}
-            className="header-back-button w-7 h-7 sm:w-9 sm:h-9 flex items-center justify-center text-art-text/40 transition-colors rounded-full cursor-pointer"
-            title="Go Back"
-          >
-            <ArrowLeft size={18} className="sm:block hidden" />
-            <ArrowLeft size={15} className="sm:hidden block" />
-          </button>
-        </div>
+        <div className="glass-filter app-header-glass-filter" aria-hidden="true" />
+        <div className="glass-overlay app-header-glass-overlay" aria-hidden="true" />
+        <div className="glass-specular app-header-glass-specular" aria-hidden="true" />
+        <div className="app-header-content">
+          <div className="header-brand flex items-center gap-1.5 sm:gap-3 shrink-0 rounded-full px-1.5 py-1">
+            <button
+              onClick={handleBack}
+              className="header-back-button w-7 h-7 sm:w-9 sm:h-9 flex items-center justify-center text-art-text/40 transition-colors rounded-full cursor-pointer"
+              title="Go Back"
+            >
+              <ArrowLeft size={18} className="sm:block hidden" />
+              <ArrowLeft size={15} className="sm:hidden block" />
+            </button>
+          </div>
 
-        <nav className="header-nav-switcher flex-1 min-w-0 h-9 sm:h-10 max-w-4xl mx-auto self-center flex items-center justify-start sm:justify-center gap-0.5 sm:gap-1 p-1 rounded-lg sm:rounded-full text-[11px] sm:text-sm font-semibold overflow-x-auto no-scrollbar">
+          <nav className="header-nav-switcher flex-1 min-w-0 h-9 sm:h-10 max-w-4xl mx-auto self-center flex items-center justify-start sm:justify-center gap-0.5 sm:gap-1 p-1 rounded-lg sm:rounded-full text-[11px] sm:text-sm font-semibold overflow-x-auto no-scrollbar">
           {[
             { id: 'manifesto', label: 'Explore' },
             { id: 'reader', label: 'Read', disabled: !text },
@@ -273,8 +277,8 @@ export default function App() {
               </button>
             );
           })}
-        </nav>
-
+          </nav>
+        </div>
       </header>
 
       <div className="flex-1 flex overflow-hidden relative w-full">
