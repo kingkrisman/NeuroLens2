@@ -3,7 +3,9 @@ import { motion, AnimatePresence } from 'motion/react';
 import { 
   FileText, 
   Settings2, 
-  Sparkles, 
+  House,
+  Github,
+  X, 
   Brain, 
   Maximize2, 
   Type, 
@@ -219,22 +221,53 @@ export default function App() {
           })}
         </nav>
 
-        <div className="order-2 flex items-center gap-1.5 sm:gap-3 shrink-0">
+        <div className="order-2 flex items-center gap-1 panel-pill p-1 rounded-full header-action-strip shrink-0">
           <button
-            onClick={() => isReading && setIsAIBarOpen(!isAIBarOpen)}
-            className={cn(
-              "px-2.5 sm:px-5 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all shrink-0 flex items-center gap-1.5 cursor-pointer surface-button",
-              !isReading && "opacity-40 cursor-not-allowed",
-              isAIBarOpen
-                ? "surface-selected text-art-text"
-                : "surface-button text-art-text"
-            )}
-            disabled={!isReading}
-            title={isReading ? "Toggle AI Synapse Assistant" : "Portal Active"}
+            type="button"
+            onClick={() => handleTabChange('manifesto')}
+            className="header-action-button w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center cursor-pointer"
+            title="Explore NeuroLens"
+            aria-label="Explore NeuroLens"
           >
-            <Sparkles size={14} className={cn("text-amber-500", isAIBarOpen && "text-amber-300")} />
-            <span className="hidden lg:inline">{isReading ? "AI Assistant" : "Portal"}</span>
-            <span className="lg:hidden font-bold">{isReading ? "AI" : "Portal"}</span>
+            <House size={17} />
+          </button>
+          <span className="header-action-divider" aria-hidden="true" />
+          <button
+            type="button"
+            onClick={() => handleTabChange('settings')}
+            className="header-action-button w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center cursor-pointer"
+            title="About NeuroLens"
+            aria-label="About NeuroLens"
+          >
+            <X size={17} />
+          </button>
+          <span className="header-action-divider" aria-hidden="true" />
+          <button
+            type="button"
+            onClick={() => handleTabChange('library')}
+            className="header-action-button w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center cursor-pointer"
+            title="Open Library"
+            aria-label="Open Library"
+          >
+            <Github size={17} />
+          </button>
+          <span className="header-action-divider hidden sm:block" aria-hidden="true" />
+          <button
+            type="button"
+            onClick={() => handleTabChange('insights')}
+            className="header-action-button hidden sm:flex w-8 h-8 sm:w-9 sm:h-9 rounded-full items-center justify-center cursor-pointer"
+            title="Open Insights"
+            aria-label="Open Insights"
+          >
+            <FileText size={17} />
+          </button>
+          <span className="header-action-divider hidden sm:block" aria-hidden="true" />
+          <button
+            type="button"
+            onClick={() => handleTabChange('manifesto')}
+            className="header-blog-button px-3 sm:px-5 h-8 sm:h-10 rounded-full flex items-center justify-center text-xs sm:text-sm font-semibold whitespace-nowrap cursor-pointer"
+          >
+            My Blog
           </button>
         </div>
       </header>
