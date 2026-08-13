@@ -159,38 +159,6 @@
   transform: translateY(0);
 }
 
-.header-action-strip {
-  min-height: 2.5rem;
-}
-
-.header-action-button {
-  color: rgba(29, 29, 29, 0.7);
-  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
-}
-
-.header-action-button:hover {
-  background: rgba(255, 255, 255, 0.72);
-  color: #1d1d1d;
-  transform: translateY(-1px);
-}
-
-.header-action-divider {
-  width: 1px;
-  height: 1.25rem;
-  background: rgba(29, 29, 29, 0.12);
-}
-
-.header-blog-button {
-  background: #0b0d12;
-  color: #fff;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-}
-
-.header-blog-button:hover {
-  background: #1d1d1d;
-  transform: translateY(-1px);
-}
-
 .reader-surface {
   background: rgba(255, 255, 255, 0.34);
   backdrop-filter: blur(20px) saturate(155%);
