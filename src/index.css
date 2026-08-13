@@ -142,10 +142,25 @@
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .reader-control-glass-layer {
+    filter: none;
+  }
+}
+
+.reader-glass-definitions {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
 .reader-control-dock {
   position: relative;
   isolation: isolate;
-  background: rgba(15, 23, 42, 0.76);
+  overflow: hidden;
+  contain: paint;
+  background: rgba(15, 23, 42, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.18);
   box-shadow:
     0 12px 32px rgba(2, 6, 23, 0.3),
@@ -155,19 +170,36 @@
   -webkit-backdrop-filter: blur(20px) saturate(155%);
 }
 
-.reader-control-dock::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0.12), transparent 42%, rgba(255, 255, 255, 0.04));
-  pointer-events: none;
-  z-index: -1;
-}
-
 .reader-control-dock > * {
   position: relative;
-  z-index: 1;
+  z-index: 2;
+}
+
+.reader-control-glass-layer,
+.reader-control-glass-highlight {
+  position: absolute !important;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.reader-control-glass-layer {
+  z-index: 0 !important;
+  background: rgba(255, 255, 255, 0.08);
+  filter: url("#reader-liquid-distortion");
+}
+
+.reader-control-glass-highlight {
+  z-index: 1 !important;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: linear-gradient(125deg, rgba(255, 255, 255, 0.2), transparent 38%, rgba(255, 255, 255, 0.05));
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.2), inset 0 -1px rgba(0, 0, 0, 0.18);
+}
+
+@supports not ((backdrop-filter: blur(1px)) and (filter: url("#reader-liquid-distortion"))) {
+  .reader-control-glass-layer {
+    filter: none;
+  }
 }
 
 .reader-control-group {

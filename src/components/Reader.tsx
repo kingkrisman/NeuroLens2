@@ -417,6 +417,13 @@ export default function Reader({
         wordSpacing: `${profile.wordSpacing}em`,
       }}
     >
+      <svg className="reader-glass-definitions" aria-hidden="true" focusable="false">
+        <filter id="reader-liquid-distortion" x="-15%" y="-15%" width="130%" height="130%" colorInterpolationFilters="sRGB">
+          <feTurbulence type="fractalNoise" baseFrequency="0.012 0.018" numOctaves="2" seed="24" result="surfaceNoise" />
+          <feDisplacementMap in="SourceGraphic" in2="surfaceNoise" scale="12" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </svg>
+
       {/* Scroll Progress Bar with Glowing Accent */}
       <div className="fixed top-24 sm:top-28 lg:top-16 left-0 right-0 h-1 bg-art-text/5 z-20 pointer-events-none">
         <motion.div 
@@ -964,6 +971,9 @@ export default function Reader({
           transition={{ type: "spring", stiffness: 350, damping: 28 }}
           className="reader-control-dock text-slate-100 p-1.5 sm:p-2 rounded-full flex items-center justify-center gap-1 sm:gap-2 max-w-full overflow-x-auto"
         >
+          <div className="reader-control-glass-layer" aria-hidden="true" />
+          <div className="reader-control-glass-highlight" aria-hidden="true" />
+
           {/* Auto-Scroll Button */}
           <div className="reader-control-group flex items-center rounded-full p-0.5 shrink-0">
             <button
