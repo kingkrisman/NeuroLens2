@@ -145,23 +145,23 @@ export default function App() {
       <div className="noise" />
 
       {/* Global Header */}
-      <header className="h-14 sm:h-16 flex items-center gap-2 px-3 sm:px-8 panel-surface shrink-0 z-50">
+      <header className="app-header h-14 sm:h-16 flex items-center gap-2 px-3 sm:px-8 shrink-0 z-50">
         <svg className="nav-glass-definitions" aria-hidden="true" focusable="false">
           <filter id="header-nav-distortion" primitiveUnits="objectBoundingBox">
             <feGaussianBlur in="SourceGraphic" stdDeviation="0.04" result="blurredNav" />
             <feDisplacementMap in="blurredNav" in2="blurredNav" scale="0.5" xChannelSelector="R" yChannelSelector="G" />
           </filter>
         </svg>
-        <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+        <div className="header-brand flex items-center gap-1.5 sm:gap-3 shrink-0 rounded-full px-1.5 py-1">
           <button
             onClick={handleBack}
-            className="w-7 h-7 sm:w-9 sm:h-9 flex items-center justify-center text-art-text/40 hover:text-art-text transition-colors rounded-full hover:bg-art-secondary cursor-pointer"
+            className="header-back-button w-7 h-7 sm:w-9 sm:h-9 flex items-center justify-center text-art-text/40 transition-colors rounded-full cursor-pointer"
             title="Go Back"
           >
             <ArrowLeft size={18} className="sm:block hidden" />
             <ArrowLeft size={15} className="sm:hidden block" />
           </button>
-          <span className="text-sm sm:text-lg font-bold tracking-tight text-art-text">NeuroLens</span>
+          <span className="header-brand-name text-sm sm:text-lg font-bold tracking-tight text-art-text">NeuroLens</span>
         </div>
 
         <nav className="header-nav-switcher flex-1 min-w-0 h-9 sm:h-10 max-w-4xl mx-auto self-center flex items-center justify-start sm:justify-center gap-0.5 sm:gap-1 p-1 rounded-lg sm:rounded-full text-[11px] sm:text-sm font-semibold overflow-x-auto no-scrollbar">
