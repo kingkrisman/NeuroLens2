@@ -20,51 +20,11 @@
   }
 }
 
-@keyframes boot-mark-reveal {
-  0% { transform: scale(.7); opacity: 0; letter-spacing: -.2em; }
-  55% { transform: scale(1.04); opacity: 1; letter-spacing: -.04em; }
-  100% { transform: scale(1); opacity: 1; letter-spacing: -.08em; }
-}
-
-@keyframes boot-orbit {
-  0% { transform: rotate(0deg) scale(.85); opacity: .15; }
-  50% { opacity: .5; }
-  100% { transform: rotate(360deg) scale(1.1); opacity: .15; }
-}
-
 @keyframes boot-pulse {
   0%, 100% { transform: scale(.7); opacity: .35; }
   50% { transform: scale(1); opacity: 1; }
 }
 
-.boot-mark {
-  display: grid;
-  width: 76px;
-  height: 76px;
-  place-items: center;
-  border: 1px solid rgba(255,255,255,.22);
-  border-radius: 24px;
-  background: linear-gradient(145deg, rgba(255,255,255,.16), rgba(255,255,255,.03));
-  box-shadow: 0 0 60px rgba(65, 130, 255, .28), inset 0 1px rgba(255,255,255,.2);
-  color: #fff;
-  font-size: 42px;
-  font-weight: 700;
-  animation: boot-mark-reveal .9s cubic-bezier(.2,.8,.2,1) both;
-}
-
-.boot-orbit {
-  position: absolute;
-  width: 300px;
-  height: 120px;
-  border: 1px solid rgba(77, 132, 255, .24);
-  border-radius: 50%;
-  filter: blur(.2px);
-  pointer-events: none;
-}
-
-.boot-orbit-one { animation: boot-orbit 2.4s linear infinite; transform: rotate(28deg); }
-.boot-orbit-two { width: 180px; height: 260px; border-color: rgba(255, 255, 255, .1); animation: boot-orbit 3.4s linear infinite reverse; transform: rotate(-34deg); }
-.boot-dot { width: 5px; height: 5px; border-radius: 999px; background: #5e9bff; animation: boot-pulse 1.1s ease-in-out infinite; }
 .loading-dots { display: inline-flex; gap: 3px; }
 .loading-dots i { width: 3px; height: 3px; border-radius: 999px; background: currentColor; animation: boot-pulse 1s ease-in-out infinite; }
 .loading-dots i:nth-child(2) { animation-delay: .15s; }
@@ -109,7 +69,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .boot-mark, .boot-orbit, .boot-dot, .loading-dots i { animation: none; }
+  .loading-dots i { animation: none; }
 }
 
 /* Liquid glass surface system */

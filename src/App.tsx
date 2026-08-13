@@ -55,7 +55,6 @@ export default function App() {
   const [mode, setMode] = useState<ReadingMode>('default');
   const [isSidebarOpen, setIsSidebarOpen] = useState(() => window.matchMedia('(min-width: 1024px)').matches);
   const [isAIBarOpen, setIsAIBarOpen] = useState(false);
-  const [isBooting, setIsBooting] = useState(true);
   const [isAutoScrolling, setIsAutoScrolling] = useState(false);
   const [autoScrollWpm, setAutoScrollWpm] = useState(220);
   const [recentSessions, setRecentSessions] = useState<{ title: string; content: string; openedAt: number }[]>(() => {
@@ -74,11 +73,6 @@ export default function App() {
       document.exitFullscreen();
     }
   };
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => setIsBooting(false), 1600);
-    return () => window.clearTimeout(timer);
-  }, []);
 
   // Persistent saving
   useEffect(() => {
@@ -148,26 +142,6 @@ export default function App() {
     )}
     style={{ backgroundColor: customProfile.tintColor !== 'transparent' ? customProfile.tintColor : undefined }}
     >
-      <AnimatePresence>
-        {isBooting && (
-          <motion.div
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.45, ease: 'easeOut' }}
-            className="fixed inset-0 z-[200] flex items-center justify-center overflow-hidden bg-[#0b0d12] text-white"
-          >
-            <div className="boot-orbit boot-orbit-one" />
-            <div className="boot-orbit boot-orbit-two" />
-            <div className="relative flex flex-col items-center">
-              <div className="boot-mark">N</div>
-              <div className="mt-6 text-[10px] font-bold uppercase tracking-[0.6em] text-white/50">NeuroLens</div>
-              <div className="mt-5 flex items-center gap-2 text-[9px] uppercase tracking-[0.3em] text-white/30">
-                <span className="boot-dot" /> Calibrating your reading space
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
       <div className="noise" />
 
       {/* Global Header */}
@@ -184,7 +158,7 @@ export default function App() {
           <span className="text-sm sm:text-lg font-bold tracking-tight text-art-text">NeuroLens</span>
         </div>
 
-        <nav className="flex-1 min-w-0 h-fit max-h-10 sm:max-h-12 self-center flex items-center justify-start gap-0.5 sm:gap-1 panel-pill p-1 rounded-lg sm:rounded-full text-[11px] sm:text-sm font-semibold text-art-text/60 overflow-x-auto no-scrollbar">
+        <nav className="flex-1 min-w-0 h-9 sm:h-10 self-center flex items-center justify-start gap-0.5 sm:gap-1 panel-pill p-1 rounded-lg sm:rounded-full text-[11px] sm:text-sm font-semibold text-art-text/60 overflow-x-auto no-scrollbar">
           {[
             { id: 'manifesto', label: 'Explore' },
             { id: 'reader', label: 'Read', disabled: !text },
