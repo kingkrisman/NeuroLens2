@@ -418,7 +418,7 @@ export default function Reader({
       }}
     >
       {/* Scroll Progress Bar with Glowing Accent */}
-      <div className="fixed top-14 sm:top-16 left-0 right-0 h-1 bg-art-text/5 z-20 pointer-events-none">
+      <div className="fixed top-24 sm:top-28 lg:top-16 left-0 right-0 h-1 bg-art-text/5 z-20 pointer-events-none">
         <motion.div 
           className="h-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 shadow-[0_0_12px_rgba(59,130,246,0.6)]" 
           animate={{ width: `${readingProgress}%` }}

@@ -171,8 +171,8 @@ export default function App() {
       <div className="noise" />
 
       {/* Global Header */}
-      <header className="min-h-14 sm:h-16 flex items-center justify-between gap-2 px-3 sm:px-8 panel-surface shrink-0 z-50">
-        <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+      <header className="min-h-14 lg:h-16 flex flex-wrap lg:flex-nowrap items-center justify-between gap-x-2 gap-y-2 px-3 py-2 sm:px-8 lg:py-0 panel-surface shrink-0 z-50">
+        <div className="order-1 flex items-center gap-1.5 sm:gap-3 shrink-0">
           <button
             onClick={handleBack}
             className="w-7 h-7 sm:w-9 sm:h-9 flex items-center justify-center text-art-text/40 hover:text-art-text transition-colors rounded-full hover:bg-art-secondary cursor-pointer"
@@ -184,7 +184,7 @@ export default function App() {
           <span className="text-sm sm:text-lg font-bold tracking-tight text-art-text">NeuroLens</span>
         </div>
 
-        <nav className="flex items-center gap-0.5 sm:gap-1 panel-pill p-1 rounded-lg sm:rounded-full text-[11px] sm:text-sm font-semibold text-art-text/60 overflow-x-auto max-w-[calc(100vw-9rem)] lg:max-w-none no-scrollbar shrink">
+        <nav className="order-3 lg:order-2 basis-full lg:basis-auto w-full lg:w-auto flex items-center justify-start gap-0.5 sm:gap-1 panel-pill p-1 rounded-lg sm:rounded-full text-[11px] sm:text-sm font-semibold text-art-text/60 overflow-x-auto max-w-none no-scrollbar">
           {[
             { id: 'manifesto', label: 'Explore' },
             { id: 'reader', label: 'Read', disabled: !text },
@@ -219,7 +219,7 @@ export default function App() {
           })}
         </nav>
 
-        <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+        <div className="order-2 flex items-center gap-1.5 sm:gap-3 shrink-0">
           <button
             onClick={() => isReading && setIsAIBarOpen(!isAIBarOpen)}
             className={cn(
