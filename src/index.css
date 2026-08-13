@@ -120,26 +120,36 @@
 }
 
 :root {
-  --glass-frost: 0.1;
-  --glass-saturation: 1.2;
   --header-filter-id: url("#header-glass-filter");
 }
 
 .liquidglass {
+  --c-glass: #bbbbbc;
+  --c-light: #fff;
+  --c-dark: #000;
+  --c-action: #0052f5;
+  --c-content: #224;
+  --glass-reflex-dark: 1;
+  --glass-reflex-light: 1;
+  --saturation: 150%;
   position: relative;
   isolation: isolate;
-  background: hsl(0 0% 0% / var(--glass-frost));
-  border-bottom: 1px solid rgba(255, 255, 255, 0.28);
-  -webkit-backdrop-filter: var(--header-filter-id) saturate(var(--glass-saturation));
-  backdrop-filter: var(--header-filter-id) saturate(var(--glass-saturation));
+  background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--c-light) 28%, transparent);
+  -webkit-backdrop-filter: blur(8px) var(--header-filter-id) saturate(var(--saturation));
+  backdrop-filter: blur(8px) var(--header-filter-id) saturate(var(--saturation));
   box-shadow:
-    inset 0 0 2px 1px rgba(255, 255, 255, 0.35),
-    inset 0 0 10px 4px rgba(255, 255, 255, 0.15),
-    inset 0 4px 16px rgba(17, 17, 26, 0.05),
-    inset 0 8px 24px rgba(17, 17, 26, 0.05),
-    inset 0 6px 56px rgba(17, 17, 26, 0.05),
-    0 6px 16px rgba(0, 0, 0, 0.08);
-  transition: background-color 240ms ease, box-shadow 240ms ease, border-color 240ms ease;
+    inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+    inset 1.8px 3px 0 -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent),
+    inset -2px -2px 0 -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent),
+    inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent),
+    inset -0.3px -1px 4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 12%), transparent),
+    inset -1.5px 2.5px 0 -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent),
+    inset 0 3px 4px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent),
+    inset 2px -6.5px 1px -4px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent),
+    0 1px 5px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent),
+    0 6px 16px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
+  transition: background-color 400ms cubic-bezier(1, 0, 0.4, 1), box-shadow 400ms cubic-bezier(1, 0, 0.4, 1), border-color 400ms cubic-bezier(1, 0, 0.4, 1);
 }
 
 .liquidglass::after {
@@ -157,15 +167,11 @@
 }
 
 .liquidglass.is-scrolled {
-  background: hsl(0 0% 0% / 0.14);
-  border-bottom-color: rgba(255, 255, 255, 0.46);
-  -webkit-backdrop-filter: var(--header-filter-id) blur(2px) saturate(1.45) contrast(1.08);
-  backdrop-filter: var(--header-filter-id) blur(2px) saturate(1.45) contrast(1.08);
-  box-shadow:
-    inset 0 0 2px 1px rgba(255, 255, 255, 0.46),
-    inset 0 0 14px 5px rgba(255, 255, 255, 0.2),
-    inset 0 -10px 24px rgba(14, 20, 34, 0.12),
-    0 8px 22px rgba(0, 0, 0, 0.16);
+  --glass-reflex-dark: 1.35;
+  --glass-reflex-light: 1.1;
+  border-bottom-color: color-mix(in srgb, var(--c-light) 46%, transparent);
+  -webkit-backdrop-filter: blur(10px) var(--header-filter-id) saturate(175%);
+  backdrop-filter: blur(10px) var(--header-filter-id) saturate(175%);
 }
 
 .liquidglass.is-scrolled::after {
@@ -230,17 +236,18 @@
   position: relative;
   isolation: isolate;
   overflow-x: auto;
-  background: color-mix(in srgb, #bbbbbc 12%, transparent);
-  border: 1px solid color-mix(in srgb, #fff 24%, transparent);
-  backdrop-filter: blur(8px) url("#header-nav-distortion") saturate(150%);
-  -webkit-backdrop-filter: blur(8px) url("#header-nav-distortion") saturate(150%);
+  background-color: color-mix(in srgb, var(--c-glass) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--c-light) 24%, transparent);
+  -webkit-backdrop-filter: blur(8px) url("#header-nav-distortion") saturate(var(--saturation));
+  backdrop-filter: blur(8px) url("#header-nav-distortion") saturate(var(--saturation));
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
-    inset 1.8px 3px 0 -2px rgba(255, 255, 255, 0.75),
-    inset -2px -2px 0 -2px rgba(255, 255, 255, 0.6),
-    inset 0 -4px 10px rgba(0, 0, 0, 0.08),
-    0 1px 5px rgba(0, 0, 0, 0.1),
-    0 6px 16px rgba(0, 0, 0, 0.08);
+    inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+    inset 1.8px 3px 0 -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent),
+    inset -2px -2px 0 -2px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent),
+    inset -3px -8px 1px -6px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent),
+    inset 0 -4px 10px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent),
+    0 1px 5px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent),
+    0 6px 16px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
 }
 
 .header-nav-switcher::before {
@@ -254,26 +261,33 @@
 }
 
 .header-nav-option {
-  --nav-option-color: rgba(29, 29, 29, 0.62);
+  --nav-option-color: var(--c-content, rgba(29, 29, 29, 0.72));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  box-sizing: border-box;
   color: var(--nav-option-color);
   z-index: 1;
 }
 
 .header-nav-option:hover {
-  --nav-option-color: #0052f5;
+  --nav-option-color: var(--c-action);
   transform: scale(1.04);
 }
 
 .header-nav-active {
   z-index: -1;
-  background: color-mix(in srgb, #bbbbbc 36%, transparent);
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  background-color: color-mix(in srgb, var(--c-glass) 36%, transparent);
+  border: 1px solid color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 28%), transparent);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.1),
-    inset 2px 1px 0 -1px rgba(255, 255, 255, 0.75),
-    inset -1.5px -1px 0 -1px rgba(255, 255, 255, 0.62),
-    inset 0 -4px 8px rgba(0, 0, 0, 0.08),
-    0 3px 6px rgba(0, 0, 0, 0.08);
+    inset 0 0 0 1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 10%), transparent),
+    inset 2px 1px 0 -1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 90%), transparent),
+    inset -1.5px -1px 0 -1px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 80%), transparent),
+    inset -2px -6px 1px -5px color-mix(in srgb, var(--c-light) calc(var(--glass-reflex-light) * 60%), transparent),
+    inset -1px 2px 3px -1px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 20%), transparent),
+    inset 0 -4px 1px -2px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 10%), transparent),
+    0 3px 6px color-mix(in srgb, var(--c-dark) calc(var(--glass-reflex-dark) * 8%), transparent);
 }
 
 @supports not ((backdrop-filter: blur(1px)) and (filter: url("#header-nav-distortion"))) {
