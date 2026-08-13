@@ -184,7 +184,7 @@ export default function App() {
           <span className="text-sm sm:text-lg font-bold tracking-tight text-art-text">NeuroLens</span>
         </div>
 
-        <nav className="flex-1 min-w-0 flex items-center justify-start gap-0.5 sm:gap-1 panel-pill p-1 rounded-lg sm:rounded-full text-[11px] sm:text-sm font-semibold text-art-text/60 overflow-x-auto no-scrollbar">
+        <nav className="flex-1 min-w-0 h-fit max-h-10 sm:max-h-12 self-center flex items-center justify-start gap-0.5 sm:gap-1 panel-pill p-1 rounded-lg sm:rounded-full text-[11px] sm:text-sm font-semibold text-art-text/60 overflow-x-auto no-scrollbar">
           {[
             { id: 'manifesto', label: 'Explore' },
             { id: 'reader', label: 'Read', disabled: !text },
