@@ -146,6 +146,12 @@ export default function App() {
 
       {/* Global Header */}
       <header className="h-14 sm:h-16 flex items-center gap-2 px-3 sm:px-8 panel-surface shrink-0 z-50">
+        <svg className="nav-glass-definitions" aria-hidden="true" focusable="false">
+          <filter id="header-nav-distortion" primitiveUnits="objectBoundingBox">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="0.04" result="blurredNav" />
+            <feDisplacementMap in="blurredNav" in2="blurredNav" scale="0.5" xChannelSelector="R" yChannelSelector="G" />
+          </filter>
+        </svg>
         <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
           <button
             onClick={handleBack}
@@ -158,7 +164,7 @@ export default function App() {
           <span className="text-sm sm:text-lg font-bold tracking-tight text-art-text">NeuroLens</span>
         </div>
 
-        <nav className="flex-1 min-w-0 h-9 sm:h-10 self-center flex items-center justify-start gap-0.5 sm:gap-1 panel-pill p-1 rounded-lg sm:rounded-full text-[11px] sm:text-sm font-semibold text-art-text/60 overflow-x-auto no-scrollbar">
+        <nav className="header-nav-switcher flex-1 min-w-0 h-9 sm:h-10 max-w-4xl mx-auto self-center flex items-center justify-start sm:justify-center gap-0.5 sm:gap-1 p-1 rounded-lg sm:rounded-full text-[11px] sm:text-sm font-semibold overflow-x-auto no-scrollbar">
           {[
             { id: 'manifesto', label: 'Explore' },
             { id: 'reader', label: 'Read', disabled: !text },
@@ -175,7 +181,7 @@ export default function App() {
                 disabled={tab.disabled}
                 onClick={() => handleTabChange(tab.id as TabType)}
                 className={cn(
-                  "relative px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-full transition-all cursor-pointer whitespace-nowrap shrink-0",
+                  "header-nav-option relative px-2.5 sm:px-4 py-1 sm:py-1.5 rounded-full transition-all cursor-pointer whitespace-nowrap shrink-0",
                   tab.disabled && "opacity-30 cursor-not-allowed",
                   isActive ? "text-art-text font-bold" : "hover:text-art-text"
                 )}
@@ -183,7 +189,7 @@ export default function App() {
                 {isActive && (
                   <motion.div
                     layoutId="activeTabPill"
-                    className="absolute inset-0 surface-selected rounded-full"
+                    className="header-nav-active absolute inset-0 rounded-full"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
