@@ -41,6 +41,8 @@ export default function Reader({
   const autoScrollWpm = propAutoScrollWpm ?? localAutoScrollWpm;
   const setAutoScrollWpm = propSetAutoScrollWpm ?? setLocalAutoScrollWpm;
 
+  const dockConstraintsRef = useRef<HTMLDivElement>(null);
+
   // Quick Note state & persistence
   const [isQuickNoteOpen, setIsQuickNoteOpen] = useState(false);
   const [quickNoteText, setQuickNoteText] = useState(() => {
@@ -750,6 +752,7 @@ export default function Reader({
       </AnimatePresence>
 
       {/* Floating Action Dock (Down Tab) */}
+      <div ref={dockConstraintsRef} className="fixed inset-0 pointer-events-none" aria-hidden="true" />
       <div className="fixed bottom-3 sm:bottom-6 left-1/2 -translate-x-1/2 z-[100] max-w-[calc(100vw-1rem)] w-auto">
         {/* Auto-Scroll Speed Popover / Drawer */}
         <AnimatePresence>
@@ -970,7 +973,12 @@ export default function Reader({
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ type: "spring", stiffness: 350, damping: 28 }}
-          className="reader-control-dock text-slate-100 p-1.5 sm:p-2 rounded-full flex items-center justify-center gap-1 sm:gap-2 max-w-full overflow-x-auto"
+          drag
+          dragConstraints={dockConstraintsRef}
+          dragElastic={0.08}
+          dragMomentum={false}
+          whileDrag={{ scale: 1.02 }}
+          className="reader-control-dock text-slate-100 p-1.5 sm:p-2 rounded-full flex items-center justify-center gap-1 sm:gap-2 max-w-full overflow-x-auto cursor-grab active:cursor-grabbing"
         >
           <div className="reader-control-glass-layer" aria-hidden="true" />
           <div className="reader-control-glass-highlight" aria-hidden="true" />
