@@ -145,8 +145,38 @@ export default function App() {
       <div className="noise" />
 
       {/* Global Header */}
-      <header className="app-header h-14 sm:h-16 flex items-center gap-2 px-3 sm:px-8 shrink-0 z-50">
-        <svg className="nav-glass-definitions" aria-hidden="true" focusable="false">
+      <header className="liquidglass app-header h-14 sm:h-16 flex items-center gap-2 px-3 sm:px-8 shrink-0 z-50">
+        <svg
+          className="glass-surface__filter nav-glass-definitions"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <filter
+            id="header-glass-filter"
+            colorInterpolationFilters="sRGB"
+            x="0%"
+            y="0%"
+            width="100%"
+            height="100%"
+          >
+            <feTurbulence
+              type="fractalNoise"
+              baseFrequency="0.012 0.018"
+              numOctaves="2"
+              seed="18"
+              result="surfaceNoise"
+            />
+            <feDisplacementMap
+              in="SourceGraphic"
+              in2="surfaceNoise"
+              scale="10"
+              xChannelSelector="R"
+              yChannelSelector="G"
+              result="distortedSurface"
+            />
+            <feGaussianBlur in="distortedSurface" stdDeviation="0.35" />
+          </filter>
           <filter id="header-nav-distortion" primitiveUnits="objectBoundingBox">
             <feGaussianBlur in="SourceGraphic" stdDeviation="0.04" result="blurredNav" />
             <feDisplacementMap in="blurredNav" in2="blurredNav" scale="0.5" xChannelSelector="R" yChannelSelector="G" />
