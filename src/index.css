@@ -163,10 +163,6 @@
   transform: scale(1.04);
 }
 
-.header-brand-name {
-  text-shadow: 0 1px rgba(255, 255, 255, 0.6);
-}
-
 @supports not ((backdrop-filter: blur(1px))) {
   .app-header {
     background: rgba(255, 255, 255, 0.3);

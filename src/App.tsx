@@ -161,7 +161,6 @@ export default function App() {
             <ArrowLeft size={18} className="sm:block hidden" />
             <ArrowLeft size={15} className="sm:hidden block" />
           </button>
-          <span className="header-brand-name text-sm sm:text-lg font-bold tracking-tight text-art-text">NeuroLens</span>
         </div>
 
         <nav className="header-nav-switcher flex-1 min-w-0 h-9 sm:h-10 max-w-4xl mx-auto self-center flex items-center justify-start sm:justify-center gap-0.5 sm:gap-1 p-1 rounded-lg sm:rounded-full text-[11px] sm:text-sm font-semibold overflow-x-auto no-scrollbar">
